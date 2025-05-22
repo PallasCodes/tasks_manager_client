@@ -1,17 +1,15 @@
+import { useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { toast } from 'sonner'
-import { useEffect } from 'react'
 
+import type { User } from '@/types/user.interface'
 import { api } from '.'
 
 const MODULE_PREFIX = '/auth'
 
 type AuthResponse = {
   token: string
-  user: {
-    id: number
-    name: string
-  }
+  user: User
 }
 
 type LoginPayload = {

@@ -9,10 +9,10 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Eye, EyeOff } from 'lucide-react'
-import { useState } from 'react'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -26,7 +26,7 @@ type Props = {
   isLoading: boolean
 }
 
-const LoginForm = ({ onSave }: Props) => {
+const LoginForm = ({ onSave, isLoading }: Props) => {
   const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<LoginFormData>({
@@ -84,7 +84,8 @@ const LoginForm = ({ onSave }: Props) => {
           )}
         />
 
-        <Button type="submit" className="w-full uppercase">
+        <Button type="submit" className="w-full uppercase" disabled={isLoading}>
+          {isLoading && <Loader2 className="animate-spin" />}
           Login
         </Button>
       </form>

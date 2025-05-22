@@ -1,23 +1,25 @@
+import { api } from '@/api'
+import type { User } from '@/types/user.interface'
 import { createContext, useContext, useState, type ReactNode } from 'react'
-
-type User = {
-  id: number
-  username: string
-}
+import { useNavigate } from 'react-router-dom'
 
 interface AuthContextType {
   user: User | null
-  login: (user: User) => void
+  login: (user: User, token: string) => void
   logout: () => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const navigate = useNavigate()
   const [user, setUser] = useState<User | null>(null)
 
-  const login = (userData: User) => {
-    setUser(userData)
+  const login = (user: User, token: string) => {
+    setUser(user)
+    localStorage.setItem('token', token)
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    navigate('/')
   }
 
   const logout = () => {
