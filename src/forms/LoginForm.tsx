@@ -14,35 +14,26 @@ import { z } from 'zod'
 import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 
-const formSchema = z
-  .object({
-    email: z.string().email(),
-    username: z.string().min(1).max(20),
-    password: z.string().min(8).max(32),
-    repeatPassword: z.string().min(8).max(32)
-  })
-  .refine((data) => data.password === data.repeatPassword, {
-    message: 'Passwords do not match',
-    path: ['repeatPassword']
-  })
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1)
+})
 
 export type LoginFormData = z.infer<typeof formSchema>
 
 type Props = {
-  onSave: (data: LoginFormData) => void
+  onSave: (data: any) => Promise<any>
+  isLoading: boolean
 }
 
 const LoginForm = ({ onSave }: Props) => {
   const [showPassword, setShowPassword] = useState(false)
-  const [showRepeat, setShowRepeat] = useState(false)
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
-      username: '',
-      password: '',
-      repeatPassword: ''
+      password: ''
     },
     mode: 'onBlur',
     reValidateMode: 'onBlur'
@@ -71,24 +62,10 @@ const LoginForm = ({ onSave }: Props) => {
 
         <FormField
           control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Contraseña</FormLabel>
+              <FormLabel>Password</FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input {...field} type={showPassword ? 'text' : 'password'} />
@@ -99,30 +76,6 @@ const LoginForm = ({ onSave }: Props) => {
                     tabIndex={-1}
                   >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="repeatPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Repeat password</FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Input {...field} type={showRepeat ? 'text' : 'password'} />
-                  <button
-                    type="button"
-                    onClick={() => setShowRepeat((prev) => !prev)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
-                    tabIndex={-1}
-                  >
-                    {showRepeat ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
               </FormControl>

@@ -11,28 +11,39 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1)
-})
+const formSchema = z
+  .object({
+    email: z.string().email(),
+    username: z.string().min(1).max(20),
+    password: z.string().min(8).max(32),
+    repeatPassword: z.string().min(8).max(32)
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: 'Passwords do not match',
+    path: ['repeatPassword']
+  })
 
 export type LoginFormData = z.infer<typeof formSchema>
 
 type Props = {
-  onSave: (data: LoginFormData) => void
+  onSave: (data: Omit<LoginFormData, 'repeatPassword'>) => void
+  isLoading: boolean
 }
 
-const RegisterForm = ({ onSave }: Props) => {
+const RegisterForm = ({ onSave, isLoading }: Props) => {
   const [showPassword, setShowPassword] = useState(false)
+  const [showRepeat, setShowRepeat] = useState(false)
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
-      password: ''
+      username: '',
+      password: '',
+      repeatPassword: ''
     },
     mode: 'onBlur',
     reValidateMode: 'onBlur'
@@ -40,7 +51,12 @@ const RegisterForm = ({ onSave }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSave)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(({ repeatPassword, ...data }) =>
+          onSave(data)
+        )}
+        className="space-y-4"
+      >
         <div className="mb-6">
           <h2 className="font-bold text-2xl text-center">Create an account</h2>
         </div>
@@ -61,10 +77,24 @@ const RegisterForm = ({ onSave }: Props) => {
 
         <FormField
           control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Contraseña</FormLabel>
+              <FormLabel>Password</FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input {...field} type={showPassword ? 'text' : 'password'} />
@@ -83,7 +113,32 @@ const RegisterForm = ({ onSave }: Props) => {
           )}
         />
 
-        <Button type="submit" className="w-full uppercase">
+        <FormField
+          control={form.control}
+          name="repeatPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Repeat password</FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Input {...field} type={showRepeat ? 'text' : 'password'} />
+                  <button
+                    type="button"
+                    onClick={() => setShowRepeat((prev) => !prev)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+                    tabIndex={-1}
+                  >
+                    {showRepeat ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" className="w-full uppercase" disabled={isLoading}>
+          {isLoading && <Loader2 className="animate-spin" />}
           Register
         </Button>
       </form>
