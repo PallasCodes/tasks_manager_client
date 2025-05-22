@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (user: User, token: string) => {
     setUser(user)
     localStorage.setItem('token', token)
+    localStorage.setItem('user', JSON.stringify(user))
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`
     navigate('/')
   }
