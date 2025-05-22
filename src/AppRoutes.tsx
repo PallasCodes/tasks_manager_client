@@ -9,6 +9,7 @@ import RegisterPage from './pages/RegisterPage'
 import SettingsPage from './pages/SettingsPage'
 import { useAuth } from './context/AuthContext'
 import type { User } from './types/user.interface'
+import MainLayout from './layouts/MainLayout'
 
 const AppRoutes = () => {
   const { login } = useAuth()
@@ -31,7 +32,14 @@ const AppRoutes = () => {
       </Route>
 
       <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={
+            <MainLayout>
+              <HomePage />
+            </MainLayout>
+          }
+        />
         <Route path="/settings" element={<SettingsPage />} />
       </Route>
 

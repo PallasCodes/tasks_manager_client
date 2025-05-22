@@ -1,0 +1,28 @@
+import { CheckCheck, CircleUserRound, Menu, Settings } from 'lucide-react'
+import { Button } from './ui/button'
+
+const Header = () => {
+  return (
+    <nav className="fixed top-0 left-0 right-0 px-4 py-3 flex items-center justify-between z-10 bg-white">
+      <div className="flex items-center justify-center gap-6">
+        <Button variant="ghost" className="rounded-full" size="icon">
+          <Menu className="size-6 text-gray-600" />
+        </Button>
+        <div className="flex items-center gap-2">
+          <CheckCheck className="text-green-800" />
+          <span className="text-gray-800 font-bold text-xl">Tasks</span>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" className="rounded-full" size="icon">
+          <Settings className="size-6 text-gray-600" />
+        </Button>
+        <Button variant="ghost" className="rounded-full" size="icon">
+          <CircleUserRound className="size-6 text-gray-700" />
+        </Button>
+      </div>
+    </nav>
+  )
+}
+
+export default Header
