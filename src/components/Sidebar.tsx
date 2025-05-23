@@ -7,6 +7,7 @@ import {
 import { CircleCheckBig, Plus, Star } from 'lucide-react'
 import { Button } from './ui/button'
 import { Checkbox } from './ui/checkbox'
+import CreateListDialog from './CreateListDialog'
 
 const Sidebar = () => {
   return (
@@ -54,13 +55,15 @@ const Sidebar = () => {
         </AccordionItem>
       </Accordion>
 
-      <Button
-        variant="ghost"
-        className="justify-start gap-3 rounded-3xl px-4! w-full font-semibold mt-4"
-      >
-        <Plus className="size-5" />
-        Create List
-      </Button>
+      <CreateListDialog>
+        <Button
+          variant="ghost"
+          className="justify-start gap-3 rounded-3xl px-4! w-full font-semibold mt-4"
+        >
+          <Plus className="size-5" />
+          Create List
+        </Button>
+      </CreateListDialog>
     </aside>
   )
 }

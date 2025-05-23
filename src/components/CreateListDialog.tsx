@@ -1,0 +1,64 @@
+import { DialogClose } from '@radix-ui/react-dialog'
+import { useState } from 'react'
+import { Button } from './ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from './ui/dialog'
+import { Input } from './ui/input'
+import { useCreateList } from '@/api/lists.api'
+import { Loader2 } from 'lucide-react'
+
+const CreateListDialog = ({ children }: React.PropsWithChildren) => {
+  const [listName, setListName] = useState('')
+  const { createList, isLoading } = useCreateList()
+
+  const handleSubmit = async () => {
+    try {
+      await createList({ title: listName })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="max-w-72!">
+        <DialogHeader>
+          <DialogTitle>Create a List</DialogTitle>
+          <DialogDescription className="mt-4">
+            <Input
+              placeholder="Type a name"
+              value={listName}
+              onChange={(e) => setListName(e.target.value)}
+              disabled={isLoading}
+            />
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="gap-4 mt-4">
+          <DialogClose asChild>
+            <Button variant="secondary" className="rounded-xl">
+              Cancel
+            </Button>
+          </DialogClose>
+          <Button
+            className="rounded-xl gap-1"
+            disabled={listName === '' || isLoading}
+            onClick={handleSubmit}
+          >
+            {isLoading && <Loader2 className="animate-spin" />}
+            Done
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export default CreateListDialog

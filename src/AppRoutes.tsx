@@ -19,7 +19,7 @@ const AppRoutes = () => {
     let user = localStorage.getItem('user')
 
     if (token && user) {
-      JSON.parse(user)
+      user = JSON.parse(user)
       login(user as unknown as User, token)
     }
   }, [])
