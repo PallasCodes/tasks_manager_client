@@ -1,8 +1,10 @@
 import { CheckLine, Circle, EllipsisVertical } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 
-import { useCreateTask } from '@/api/tasks.api'
+import { useCreateTask, useDeleteTask } from '@/api/tasks.api'
 import type { List as ListCard } from '@/types/list.interface'
+import type { Task } from '@/types/task.interface'
+import TaskItem from './TaskItem'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
@@ -10,7 +12,8 @@ import { Input } from './ui/input'
 const ListCard = ({ list }: { list: ListCard }) => {
   const [showNewTaskInput, setShowNewTaskInput] = useState(false)
   const [newTask, setNewTask] = useState('')
-  const { createTask, isLoading } = useCreateTask()
+  const { createTask } = useCreateTask()
+  const { deleteTask } = useDeleteTask()
 
   const handleAddTask = async (e?: FormEvent<HTMLFormElement>) => {
     e?.preventDefault()
@@ -25,6 +28,14 @@ const ListCard = ({ list }: { list: ListCard }) => {
         title: trimmedNewTask
       })
       setNewTask('')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleDeleteTask = (id: string) => {
+    try {
+      deleteTask(id)
     } catch (error) {
       console.error(error)
     }
@@ -68,16 +79,8 @@ const ListCard = ({ list }: { list: ListCard }) => {
         )}
       </CardHeader>
       <CardContent className="flex flex-col px-0!">
-        {list.tasks?.map((task) => (
-          <div
-            key={task.id}
-            className="w-full flex items-center gap-1.5 hover:bg-blue-50 transition-colors px-2 py-1"
-          >
-            <Button variant="ghost" className="rounded-full size-7">
-              <Circle />
-            </Button>
-            <span className="text-sm text-gray-800">{task.title}</span>
-          </div>
+        {list.tasks?.map((task: Task) => (
+          <TaskItem key={task.id} task={task} deleteTask={handleDeleteTask} />
         ))}
       </CardContent>
     </Card>

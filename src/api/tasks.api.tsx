@@ -49,3 +49,40 @@ export const useCreateTask = () => {
     isLoading
   }
 }
+
+export const useDeleteTask = () => {
+  const queryClient = useQueryClient()
+
+  const deleteTaskRequest = async (id: string): Promise<createTaskPayload> => {
+    try {
+      const response = await api.delete(`${MODULE_PREFIX}/${id}`)
+      return response.data
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || 'Could not delete task')
+    }
+  }
+
+  const {
+    mutateAsync: deleteTask,
+    isLoading,
+    error,
+    reset
+  } = useMutation({
+    mutationFn: deleteTaskRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['fetchLists'])
+    }
+  })
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.toString())
+      reset()
+    }
+  }, [error, reset])
+
+  return {
+    deleteTask,
+    isLoading
+  }
+}
