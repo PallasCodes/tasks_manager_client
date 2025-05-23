@@ -15,7 +15,7 @@ const MainLayout = ({ children }: React.PropsWithChildren) => {
         }`}
       >
         <Sidebar />
-        <ScrollArea className="p-6">{children}</ScrollArea>
+        <ScrollArea className="p-6 w-full">{children}</ScrollArea>
       </div>
     </div>
   )

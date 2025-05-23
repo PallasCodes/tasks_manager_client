@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { toast } from 'sonner'
 
 import type { List } from '@/types/list.interface'
@@ -34,5 +34,28 @@ export const useCreateList = () => {
   return {
     createList,
     isLoading
+  }
+}
+
+export const useGetLists = () => {
+  const getListsRequest = async (): Promise<List[]> => {
+    try {
+      const response = await api.get(MODULE_PREFIX)
+      return response.data
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || 'Could not create list')
+    }
+  }
+
+  const {
+    data: lists,
+    isLoading,
+    error
+  } = useQuery('fetchLists', getListsRequest)
+
+  return {
+    lists,
+    isLoading,
+    error
   }
 }
