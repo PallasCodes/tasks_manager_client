@@ -31,7 +31,12 @@ const Sidebar = () => {
           Pinned
         </Button>
       </div>
-      <Accordion type="single" collapsible className="px-4">
+      <Accordion
+        type="single"
+        collapsible
+        className="px-4"
+        defaultValue="item-1"
+      >
         <AccordionItem value="item-1">
           <AccordionTrigger>Lists</AccordionTrigger>
           <AccordionContent className="flex items-center gap-3">

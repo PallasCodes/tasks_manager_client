@@ -24,7 +24,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const logout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    api.defaults.headers.common['Authorization'] = ''
     setUser(null)
+    navigate('/login')
   }
 
   return (

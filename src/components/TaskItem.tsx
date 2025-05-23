@@ -6,9 +6,10 @@ import { Button } from './ui/button'
 interface Props {
   task: Task
   deleteTask: (id: string) => void
+  isLoading: boolean
 }
 
-const TaskItem = ({ task, deleteTask }: Props) => {
+const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
   return (
     <div className="w-full flex justify-between items-center gap-1.5 hover:bg-blue-50 transition-colors px-2 py-1">
       <div className="flex items-center">
@@ -21,6 +22,7 @@ const TaskItem = ({ task, deleteTask }: Props) => {
         variant="ghost"
         className="size-7 hover:text-red-400 transition-colors text-gray-400"
         onClick={() => deleteTask(task.id as string)}
+        disabled={isLoading}
       >
         <Trash className="size-4" />
       </Button>

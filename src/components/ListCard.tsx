@@ -12,8 +12,8 @@ import { Input } from './ui/input'
 const ListCard = ({ list }: { list: ListCard }) => {
   const [showNewTaskInput, setShowNewTaskInput] = useState(false)
   const [newTask, setNewTask] = useState('')
-  const { createTask } = useCreateTask()
-  const { deleteTask } = useDeleteTask()
+  const { createTask, isLoading: addTaskIsLoading } = useCreateTask()
+  const { deleteTask, isLoading: deleteTaskIsLoading } = useDeleteTask()
 
   const handleAddTask = async (e?: FormEvent<HTMLFormElement>) => {
     e?.preventDefault()
@@ -80,7 +80,12 @@ const ListCard = ({ list }: { list: ListCard }) => {
       </CardHeader>
       <CardContent className="flex flex-col px-0!">
         {list.tasks?.map((task: Task) => (
-          <TaskItem key={task.id} task={task} deleteTask={handleDeleteTask} />
+          <TaskItem
+            key={task.id}
+            task={task}
+            deleteTask={handleDeleteTask}
+            isLoading={deleteTaskIsLoading || addTaskIsLoading}
+          />
         ))}
       </CardContent>
     </Card>
