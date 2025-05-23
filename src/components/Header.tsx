@@ -1,11 +1,21 @@
 import { CheckCheck, CircleUserRound, Menu, Settings } from 'lucide-react'
 import { Button } from './ui/button'
+import type React from 'react'
 
-const Header = () => {
+const Header = ({
+  hideSideBar
+}: {
+  hideSideBar: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
   return (
-    <nav className="fixed top-0 left-0 right-0 px-4 py-3 flex items-center justify-between z-10 bg-white">
+    <nav className="sticky top-0 left-0 right-0 px-4 py-3 flex items-center justify-between z-10 bg-white">
       <div className="flex items-center justify-center gap-6">
-        <Button variant="ghost" className="rounded-full" size="icon">
+        <Button
+          variant="ghost"
+          className="rounded-full"
+          size="icon"
+          onClick={() => hideSideBar((prev: boolean) => !prev)}
+        >
           <Menu className="size-6 text-gray-600" />
         </Button>
         <div className="flex items-center gap-2">
