@@ -42,7 +42,7 @@ const ListCard = ({ list }: { list: ListCard }) => {
   }
 
   return (
-    <Card className="shrink-0 grow min-w-sm max-w-lg w-full gap-0! py-5! overflow-y-scroll list-card">
+    <Card className="shrink-0 grow min-w-sm max-w-lg w-full gap-0! py-5! overflow-y-scroll list-card h-min">
       <CardHeader className="px-0! top-0 sticky bg-white">
         <CardTitle className="px-4">{list.title}</CardTitle>
         <Button

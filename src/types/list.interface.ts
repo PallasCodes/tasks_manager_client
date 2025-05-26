@@ -6,4 +6,5 @@ export interface List {
   title: string
   user?: string | User
   tasks: Task[]
+  hidden?: boolean
 }

@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import AppRoutes from './AppRoutes.tsx'
 import { AuthProvider } from './context/AuthContext.tsx'
+import { TasksProvider } from './context/TasksContext.tsx'
 import './index.css'
 
 const queryClient = new QueryClient({
@@ -22,8 +23,10 @@ createRoot(document.getElementById('root')!).render(
     <Router>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <AppRoutes />
-          <Toaster visibleToasts={1} position="top-right" richColors />
+          <TasksProvider>
+            <AppRoutes />
+            <Toaster visibleToasts={1} position="top-right" richColors />
+          </TasksProvider>
         </AuthProvider>
       </QueryClientProvider>
     </Router>

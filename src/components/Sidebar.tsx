@@ -4,14 +4,17 @@ import {
   AccordionItem,
   AccordionTrigger
 } from '@/components/ui/accordion'
+import { useTasks } from '@/context/TasksContext'
 import { CircleCheckBig, Plus, Star } from 'lucide-react'
+import CreateListDialog from './CreateListDialog'
 import { Button } from './ui/button'
 import { Checkbox } from './ui/checkbox'
-import CreateListDialog from './CreateListDialog'
 
 const Sidebar = () => {
+  const { lists, toggleList } = useTasks()
+
   return (
-    <aside className={`max-w-72 w-full min-h-[calc(screen - 50px)] p-4`}>
+    <aside className="min-w-60 max-w-72 w-full min-h-[calc(screen - 50px)] p-4">
       <Button
         variant="secondary"
         className="text-md rounded-lg shadow-none py-6! px-4!"
@@ -39,24 +42,22 @@ const Sidebar = () => {
       >
         <AccordionItem value="item-1">
           <AccordionTrigger>Lists</AccordionTrigger>
-          <AccordionContent className="flex items-center gap-3">
-            <Checkbox id="terms" className="size-4" />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Today
-            </label>
-          </AccordionContent>
-          <AccordionContent className="flex items-center gap-3">
-            <Checkbox id="terms" className="size-4" />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Tomorrow
-            </label>
-          </AccordionContent>
+          {lists?.map((list) => (
+            <AccordionContent className="flex items-center gap-3" key={list.id}>
+              <Checkbox
+                id="terms"
+                className="size-4"
+                checked={!list.hidden}
+                onCheckedChange={() => toggleList(list.id as string)}
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {list.title}
+              </label>
+            </AccordionContent>
+          ))}
         </AccordionItem>
       </Accordion>
 
