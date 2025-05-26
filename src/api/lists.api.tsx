@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { toast } from 'sonner'
 
 import type { List } from '@/types/list.interface'
@@ -57,5 +57,41 @@ export const useGetLists = () => {
     lists,
     isLoading,
     error
+  }
+}
+
+export const useDeleteList = () => {
+  const queryClient = useQueryClient()
+
+  const deleteListRequest = async (id: string): Promise<void> => {
+    try {
+      await api.delete(`${MODULE_PREFIX}/${id}`)
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || 'Could not delete list')
+    }
+  }
+
+  const {
+    mutateAsync: deleteList,
+    isLoading,
+    error,
+    reset
+  } = useMutation({
+    mutationFn: deleteListRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['fetchLists'])
+    }
+  })
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.toString())
+      reset()
+    }
+  }, [error, reset])
+
+  return {
+    deleteList,
+    isLoading
   }
 }

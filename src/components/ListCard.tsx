@@ -2,14 +2,25 @@ import { CheckLine, Circle, EllipsisVertical } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 
 import { useCreateTask, useDeleteTask } from '@/api/tasks.api'
-import type { List as ListCard } from '@/types/list.interface'
+import type { List, List as ListCard } from '@/types/list.interface'
 import type { Task } from '@/types/task.interface'
 import TaskItem from './TaskItem'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem
+} from '@/components/ui/dropdown-menu'
 
-const ListCard = ({ list }: { list: ListCard }) => {
+interface Props {
+  list: ListCard
+  deleteList: (list: List) => void
+}
+
+const ListCard = ({ list, deleteList }: Props) => {
   const [showNewTaskInput, setShowNewTaskInput] = useState(false)
   const [newTask, setNewTask] = useState('')
   const { createTask, isLoading: addTaskIsLoading } = useCreateTask()
@@ -45,12 +56,25 @@ const ListCard = ({ list }: { list: ListCard }) => {
     <Card className="shrink-0 grow min-w-sm max-w-lg w-full gap-0! py-5! overflow-y-scroll list-card h-min">
       <CardHeader className="px-0! top-0 sticky bg-white">
         <CardTitle className="px-4">{list.title}</CardTitle>
-        <Button
-          variant="ghost"
-          className="rounded-full absolute top-[-14px] right-1 size-8"
-        >
-          <EllipsisVertical className="size-5 text-gray-700" />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="rounded-full absolute top-[-14px] right-1 size-8"
+            >
+              <EllipsisVertical className="size-5 text-gray-700" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => deleteList(list)}
+            >
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <Button
           variant="ghost"
           className="text-blue-400 justify-start px-4! hover:bg-blue-50 transition-colors hover:text-text-blue-600"
