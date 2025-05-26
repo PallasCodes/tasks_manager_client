@@ -54,7 +54,7 @@ const ListCard = ({ list, deleteList }: Props) => {
 
   return (
     <Card className="shrink-0 grow min-w-sm max-w-lg w-full gap-0! py-5! overflow-y-auto list-card h-min">
-      <CardHeader className="px-0! top-0 sticky bg-white">
+      <CardHeader className="px-0! top-0 sticky bg-white dark:bg-card">
         <CardTitle className="px-4">{list.title}</CardTitle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
