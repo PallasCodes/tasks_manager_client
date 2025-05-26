@@ -25,9 +25,9 @@ const LoginPage = () => {
   return (
     <div className="max-w-sm mx-auto mt-16">
       <LoginForm onSave={loginUser} isLoading={isLoading} />
-      <div className="text-center mt-6 text-gray-800">
+      <div className="text-center mt-6 text-gray-800 dark:text-gray-300">
         Don't have an account yet?{' '}
-        <Link to="/register" className="text-blue-700">
+        <Link to="/register" className="text-blue-700 dark:text-blue-400">
           Register
         </Link>
       </div>

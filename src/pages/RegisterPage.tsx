@@ -21,9 +21,9 @@ const RegisterPage = () => {
   return (
     <div className="max-w-sm mx-auto mt-16">
       <RegisterForm onSave={registerUser} isLoading={isLoading} />
-      <div className="text-center mt-6 text-gray-800">
+      <div className="text-center mt-6 text-gray-800 dark:text-gray-300">
         Already registered?{' '}
-        <Link to="/login" className="text-blue-700">
+        <Link to="/login" className="text-blue-700 dark:text-blue-400">
           Login
         </Link>
       </div>

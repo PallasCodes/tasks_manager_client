@@ -15,6 +15,14 @@ const AppRoutes = () => {
   const { login } = useAuth()
 
   useEffect(() => {
+    const darkMode = localStorage.getItem('darkMode')
+
+    if (darkMode === 'true') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+
     const token = localStorage.getItem('token')
     let user = localStorage.getItem('user')
 

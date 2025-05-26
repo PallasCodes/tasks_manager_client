@@ -98,7 +98,7 @@ const ListCard = ({ list, deleteList }: Props) => {
             <form onSubmit={(e) => handleAddTask(e)}>
               <Input
                 placeholder="Title"
-                className="border-none shadow-none outline-none focus:outline-none! focus:ring-0! focus:border-transparent! px-[6px]!"
+                className="border-none shadow-none outline-none focus:outline-none! focus:ring-0! focus:border-transparent! px-[6px]! w-full! bg-transparent!"
                 autoFocus
                 onBlur={() => handleAddTask()}
                 value={newTask}
