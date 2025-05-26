@@ -17,7 +17,7 @@ const Header = ({
   const { logout } = useAuth()
 
   return (
-    <nav className="sticky top-0 left-0 right-0 px-4 py-3 flex items-center justify-between z-10 bg-white">
+    <nav className="sticky top-0 left-0 right-0 px-4 py-3 flex items-center justify-between z-10 bg-white dark:bg-gray-800">
       <div className="flex items-center justify-center gap-6">
         <Button
           variant="ghost"

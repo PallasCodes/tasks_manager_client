@@ -102,3 +102,40 @@ export const useDeleteList = () => {
     isLoading
   }
 }
+
+export const useUpdateList = () => {
+  const queryClient = useQueryClient()
+
+  const updateListRequest = async (payload: List): Promise<List> => {
+    try {
+      const response = await api.put(`${MODULE_PREFIX}/${payload.id}`, payload)
+      return response.data
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || 'Could not update list')
+    }
+  }
+
+  const {
+    mutateAsync: updateList,
+    isLoading,
+    error,
+    reset
+  } = useMutation({
+    mutationFn: updateListRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['fetchLists'])
+    }
+  })
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.toString())
+      reset()
+    }
+  }, [error, reset])
+
+  return {
+    updateList,
+    isLoading
+  }
+}

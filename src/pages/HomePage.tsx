@@ -16,6 +16,8 @@ const HomePage = () => {
     setShowDeleteDialog(true)
   }
 
+  // TODO: fix lists rendering
+
   useEffect(() => {
     if (apiLists) {
       const mappedLists = apiLists.map((list) => ({ ...list, hidden: false }))

@@ -20,6 +20,8 @@ interface Props {
   close: () => void
 }
 
+// TODO: fix open and close behavior
+
 const CreateListDialog = ({
   children,
   open,
@@ -54,7 +56,7 @@ const CreateListDialog = ({
         </DialogHeader>
         <DialogFooter className="gap-4 mt-4">
           <DialogClose asChild>
-            <Button variant="secondary" className="rounded-xl">
+            <Button variant="secondary" className="rounded-xl" onClick={close}>
               Cancel
             </Button>
           </DialogClose>

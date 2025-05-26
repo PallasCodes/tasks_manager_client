@@ -53,7 +53,7 @@ const ListCard = ({ list, deleteList }: Props) => {
   }
 
   return (
-    <Card className="shrink-0 grow min-w-sm max-w-lg w-full gap-0! py-5! overflow-y-scroll list-card h-min">
+    <Card className="shrink-0 grow min-w-sm max-w-lg w-full gap-0! py-5! overflow-y-auto list-card h-min">
       <CardHeader className="px-0! top-0 sticky bg-white">
         <CardTitle className="px-4">{list.title}</CardTitle>
         <DropdownMenu>
@@ -71,6 +71,12 @@ const ListCard = ({ list, deleteList }: Props) => {
               onClick={() => deleteList(list)}
             >
               Delete
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => deleteList(list)}
+            >
+              Change list's name
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
