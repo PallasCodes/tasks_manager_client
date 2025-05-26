@@ -8,6 +8,8 @@ import { api } from '.'
 const MODULE_PREFIX = '/lists'
 
 export const useCreateList = () => {
+  const queryClient = useQueryClient()
+
   const createListRequest = async (payload: List): Promise<List> => {
     try {
       const response = await api.post(MODULE_PREFIX, payload)
@@ -22,7 +24,12 @@ export const useCreateList = () => {
     isLoading,
     error,
     reset
-  } = useMutation(createListRequest)
+  } = useMutation({
+    mutationFn: createListRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['fetchLists'])
+    }
+  })
 
   useEffect(() => {
     if (error) {

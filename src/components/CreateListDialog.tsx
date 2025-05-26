@@ -13,21 +13,32 @@ import {
 import { Input } from './ui/input'
 import { useCreateList } from '@/api/lists.api'
 import { Loader2 } from 'lucide-react'
+import type List from './ListCard'
 
-const CreateListDialog = ({ children }: React.PropsWithChildren) => {
+interface Props {
+  open: boolean
+  close: () => void
+}
+
+const CreateListDialog = ({
+  children,
+  open,
+  close
+}: React.PropsWithChildren<Props>) => {
   const [listName, setListName] = useState('')
   const { createList, isLoading } = useCreateList()
 
   const handleSubmit = async () => {
     try {
-      await createList({ title: listName })
+      await createList({ title: listName } as List)
+      close()
     } catch (error) {
       console.error(error)
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-72!">
         <DialogHeader>

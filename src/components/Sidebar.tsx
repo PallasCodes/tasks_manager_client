@@ -9,9 +9,11 @@ import { CircleCheckBig, Plus, Star } from 'lucide-react'
 import CreateListDialog from './CreateListDialog'
 import { Button } from './ui/button'
 import { Checkbox } from './ui/checkbox'
+import { useState } from 'react'
 
 const Sidebar = () => {
   const { lists, toggleList } = useTasks()
+  const [createListOpen, setCreateListOpen] = useState(false)
 
   return (
     <aside className="min-w-60 max-w-72 w-full min-h-[calc(screen - 50px)] p-4">
@@ -61,10 +63,14 @@ const Sidebar = () => {
         </AccordionItem>
       </Accordion>
 
-      <CreateListDialog>
+      <CreateListDialog
+        open={createListOpen}
+        close={() => setCreateListOpen(false)}
+      >
         <Button
           variant="ghost"
           className="justify-start gap-3 rounded-3xl px-4! w-full font-semibold mt-4"
+          onClick={() => setCreateListOpen(true)}
         >
           <Plus className="size-5" />
           Create List
