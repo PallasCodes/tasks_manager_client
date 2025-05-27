@@ -86,3 +86,51 @@ export const useDeleteTask = () => {
     isLoading
   }
 }
+
+export const useUpdateTask = () => {
+  const queryClient = useQueryClient()
+
+  const updateTaskRequest = async ({
+    id,
+    title,
+    done
+  }: {
+    id: string
+    title?: string
+    done?: boolean
+  }): Promise<createTaskPayload> => {
+    try {
+      const response = await api.patch(`${MODULE_PREFIX}/${id}`, {
+        title,
+        done
+      })
+      return response.data
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || 'Could not update task')
+    }
+  }
+
+  const {
+    mutateAsync: updateTask,
+    isLoading,
+    error,
+    reset
+  } = useMutation({
+    mutationFn: updateTaskRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['fetchLists'])
+    }
+  })
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.toString())
+      reset()
+    }
+  }, [error, reset])
+
+  return {
+    updateTask,
+    isLoading
+  }
+}

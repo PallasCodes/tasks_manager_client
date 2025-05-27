@@ -25,7 +25,7 @@ createRoot(document.getElementById('root')!).render(
         <AuthProvider>
           <TasksProvider>
             <AppRoutes />
-            <Toaster visibleToasts={1} position="top-right" richColors />
+            <Toaster position="top-right" richColors closeButton />
           </TasksProvider>
         </AuthProvider>
       </QueryClientProvider>

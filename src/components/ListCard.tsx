@@ -2,18 +2,24 @@ import { CheckLine, Circle, EllipsisVertical } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 
 import { useCreateTask, useDeleteTask } from '@/api/tasks.api'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import type { List, List as ListCard } from '@/types/list.interface'
-import type { Task } from '@/types/task.interface'
+
 import TaskItem from './TaskItem'
+import {
+  Accordion,
+  AccordionTrigger,
+  AccordionContent,
+  AccordionItem
+} from './ui/accordion'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem
-} from '@/components/ui/dropdown-menu'
 
 interface Props {
   list: ListCard
@@ -110,14 +116,34 @@ const ListCard = ({ list, deleteList, updateList }: Props) => {
         )}
       </CardHeader>
       <CardContent className="flex flex-col px-0!">
-        {list.tasks?.map((task: Task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            deleteTask={handleDeleteTask}
-            isLoading={deleteTaskIsLoading || addTaskIsLoading}
-          />
-        ))}
+        {list.tasks
+          ?.filter((task) => !task.done)
+          .map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              deleteTask={handleDeleteTask}
+              isLoading={deleteTaskIsLoading || addTaskIsLoading}
+            />
+          ))}
+        <Accordion collapsible type="single">
+          <AccordionItem value="tasks-done">
+            <AccordionTrigger className="px-4">
+              Done ({list.tasks?.filter((task) => task.done).length})
+            </AccordionTrigger>
+            {list.tasks
+              ?.filter((task) => task.done)
+              .map((task) => (
+                <AccordionContent key={task.id} className="p-0!">
+                  <TaskItem
+                    task={task}
+                    deleteTask={handleDeleteTask}
+                    isLoading={deleteTaskIsLoading || addTaskIsLoading}
+                  />
+                </AccordionContent>
+              ))}
+          </AccordionItem>
+        </Accordion>
       </CardContent>
     </Card>
   )
