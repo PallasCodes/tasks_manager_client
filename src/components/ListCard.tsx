@@ -18,9 +18,10 @@ import {
 interface Props {
   list: ListCard
   deleteList: (list: List) => void
+  updateList: (list: List) => void
 }
 
-const ListCard = ({ list, deleteList }: Props) => {
+const ListCard = ({ list, deleteList, updateList }: Props) => {
   const [showNewTaskInput, setShowNewTaskInput] = useState(false)
   const [newTask, setNewTask] = useState('')
   const { createTask, isLoading: addTaskIsLoading } = useCreateTask()
@@ -74,7 +75,7 @@ const ListCard = ({ list, deleteList }: Props) => {
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => deleteList(list)}
+              onClick={() => updateList(list)}
             >
               Change list's name
             </DropdownMenuItem>

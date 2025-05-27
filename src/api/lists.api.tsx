@@ -106,9 +106,15 @@ export const useDeleteList = () => {
 export const useUpdateList = () => {
   const queryClient = useQueryClient()
 
-  const updateListRequest = async (payload: List): Promise<List> => {
+  const updateListRequest = async ({
+    id,
+    title
+  }: {
+    id: string
+    title: string
+  }): Promise<List> => {
     try {
-      const response = await api.put(`${MODULE_PREFIX}/${payload.id}`, payload)
+      const response = await api.patch(`${MODULE_PREFIX}/${id}`, { title })
       return response.data
     } catch (error: any) {
       throw new Error(error.response?.data?.message || 'Could not update list')
