@@ -122,3 +122,35 @@
 .list-card {
   max-height: calc(100vh - 110px);
 }
+
+@layer utilities {
+  .custom-scrollbar {
+    scrollbar-width: auto;
+    scrollbar-color: #cbd5e0 #f7fafc;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 24px !important;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f7fafc;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #a0aec0;
+    border-radius: 9999px;
+  }
+
+  .dark .custom-scrollbar {
+    scrollbar-color: #4a5568 #1a202c;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-track {
+    background: #1a202c;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #718096;
+  }
+}

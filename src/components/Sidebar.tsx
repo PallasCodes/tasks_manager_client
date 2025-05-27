@@ -16,7 +16,7 @@ const Sidebar = () => {
   const [createListOpen, setCreateListOpen] = useState(false)
 
   return (
-    <aside className="min-w-60 max-w-72 w-full min-h-[calc(screen - 50px)] p-4">
+    <div className="min-w-60 max-w-72 w-full min-h-[calc(screen - 50px)] p-4">
       <Button
         variant="secondary"
         className="text-md rounded-lg shadow-none py-6! px-4!"
@@ -45,16 +45,19 @@ const Sidebar = () => {
         <AccordionItem value="item-1">
           <AccordionTrigger>Lists</AccordionTrigger>
           {lists?.map((list) => (
-            <AccordionContent className="flex items-center gap-3" key={list.id}>
+            <AccordionContent
+              className="flex items-center gap-3 w-full"
+              key={list.id}
+            >
               <Checkbox
-                id="terms"
+                id={`list-${list.id}`}
                 className="size-4"
                 checked={!list.hidden}
                 onCheckedChange={() => toggleList(list.id as string)}
               />
               <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor={`list-${list.id}`}
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 w-full"
               >
                 {list.title}
               </label>
@@ -76,7 +79,7 @@ const Sidebar = () => {
           Create List
         </Button>
       </CreateListDialog>
-    </aside>
+    </div>
   )
 }
 
