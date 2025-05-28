@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import type { List, List as ListCard } from '@/types/list.interface'
+import type { List } from '@/types/list.interface'
 
 import TaskItem from './TaskItem'
 import {
@@ -22,7 +22,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
 
 interface Props {
-  list: ListCard
+  list: List
   deleteList: (list: List) => void
   updateList: (list: List) => void
 }

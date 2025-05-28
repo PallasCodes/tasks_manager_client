@@ -7,7 +7,7 @@ import type { List } from '@/types/list.interface'
 import { useEffect, useState } from 'react'
 
 const HomePage = () => {
-  const { lists: apiLists, error, isLoading } = useGetLists()
+  const { lists: apiLists } = useGetLists()
   const { setLists, lists } = useTasks()
   const [selectedList, setSelectedList] = useState<List | undefined>(undefined)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
@@ -22,8 +22,6 @@ const HomePage = () => {
     setSelectedList(list)
     setShowUpdateDialog(true)
   }
-
-  // TODO: fix lists rendering
 
   useEffect(() => {
     if (apiLists) {
