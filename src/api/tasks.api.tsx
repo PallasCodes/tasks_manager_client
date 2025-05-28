@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 
 import { api } from '.'
 import type { Task } from '@/types/task.interface'
+import type { List } from '@/types/list.interface'
 
 const MODULE_PREFIX = '/tasks'
 
@@ -108,8 +109,19 @@ export const useUpdateTask = () => {
     reset
   } = useMutation({
     mutationFn: updateTaskRequest,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['fetchLists'])
+    onSuccess: (updatedTask) => {
+      queryClient.setQueryData<List[] | undefined>(
+        ['fetchLists'],
+        (oldData) => {
+          if (!oldData) return oldData
+          return oldData.map((list) => ({
+            ...list,
+            tasks: list.tasks.map((task) =>
+              task.id === updatedTask.id ? updatedTask : task
+            )
+          }))
+        }
+      )
     }
   })
 
