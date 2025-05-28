@@ -87,7 +87,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
       <div className="flex items-center">
         <Button
           variant="ghost"
-          className="size-7 hover:text-red-400 transition-colors text-gray-400 dark:text-gray-500 dark:hover:text-red-400"
+          className="size-7 hover:text-red-400 transition-colors text-transparent dark:text-transparent dark:hover:text-red-400"
           onClick={() => deleteTask(task.id as string)}
           disabled={isLoading || updateIsLoading}
         >
@@ -95,7 +95,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
         </Button>
         <Button
           variant="ghost"
-          className="size-7 hover:text-green-400 transition-colors text-gray-400 dark:text-gray-500 dark:hover:text-green-400"
+          className="size-7 hover:text-green-400 transition-colors text-transparent dark:text-transparent dark:hover:text-green-400"
           onClick={enableTaskEditing}
           disabled={isLoading || updateIsLoading}
         >
@@ -103,8 +103,8 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
         </Button>
         <Button
           variant="ghost"
-          className={`size-7 hover:text-yellow-400 transition-colors text-gray-400 dark:text-gray-500 dark:hover:text-yellow-400 ${
-            task.pinned ? 'text-yellow-200!' : ''
+          className={`size-7 hover:text-yellow-400 transition-colors text-transparent dark:text-transparent dark:hover:text-yellow-400 ${
+            task.pinned ? 'dark:text-yellow-200 text-yellow-400' : ''
           }`}
           onClick={() => handleUpdateTask({ ...task, pinned: !task.pinned })}
           disabled={isLoading || updateIsLoading}

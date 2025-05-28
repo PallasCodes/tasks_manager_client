@@ -93,7 +93,7 @@ export const useUpdateTask = () => {
 
   const updateTaskRequest = async (payload: Task): Promise<Task> => {
     try {
-      const { id, ...restPayload } = payload
+      const { id, createdAt, updatedAt, ...restPayload } = payload
       const response = await api.patch(`${MODULE_PREFIX}/${id}`, restPayload)
       return response.data
     } catch (error: any) {
