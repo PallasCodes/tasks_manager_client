@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { Circle, CircleCheck, Pen, Trash } from 'lucide-react'
+import { Circle, CircleCheck, Pen, Star, Trash } from 'lucide-react'
 
 import { useUpdateTask } from '@/api/tasks.api'
 import type { Task } from '@/types/task.interface'
@@ -23,16 +23,17 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
     setNewTitle(task.title)
   }
 
-  const handleUpdateTask = async (
-    e?: FormEvent<HTMLFormElement> | any,
+  const handleUpdateTask = async (fnPayload: {
+    e?: FormEvent<HTMLFormElement>
     done?: boolean
-  ) => {
+    pinned?: boolean
+    title?: string
+  }) => {
     try {
+      const { e, ...restPayload } = fnPayload
       e?.preventDefault()
-      const payload =
-        done !== undefined
-          ? { id: task.id as string, done }
-          : { id: task.id as string, title: newTitle }
+      const payload = { ...task, ...restPayload }
+
       await updateTask(payload)
     } catch (error) {
       console.error(error)
@@ -49,7 +50,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
           <Button
             variant="ghost"
             className="rounded-full size-7"
-            onClick={(e) => handleUpdateTask(e, !task.done)}
+            onClick={() => handleUpdateTask({ ...task, done: !task.done })}
           >
             {task.done ? <CircleCheck /> : <Circle />}
           </Button>
@@ -68,12 +69,14 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
           <Button variant="ghost" className="rounded-full size-7">
             <Circle />
           </Button>
-          <form onSubmit={(e) => handleUpdateTask(e)}>
+          <form
+            onSubmit={(e) => handleUpdateTask({ e, ...task, title: newTitle })}
+          >
             <Input
               placeholder="Title"
               className="border-none shadow-none outline-none focus:outline-none! focus:ring-0! focus:border-transparent! px-[6px]! w-full! bg-transparent!"
               autoFocus
-              onBlur={() => handleUpdateTask()}
+              onBlur={() => handleUpdateTask({ ...task, title: newTitle })}
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
             />
@@ -97,6 +100,16 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
           disabled={isLoading || updateIsLoading}
         >
           <Pen className="size-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          className={`size-7 hover:text-yellow-400 transition-colors text-gray-400 dark:text-gray-500 dark:hover:text-yellow-400 ${
+            task.pinned ? 'text-yellow-200!' : ''
+          }`}
+          onClick={() => handleUpdateTask({ ...task, pinned: !task.pinned })}
+          disabled={isLoading || updateIsLoading}
+        >
+          <Star className="size-4" />
         </Button>
       </div>
     </div>

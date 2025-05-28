@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from 'react-query'
 import { toast } from 'sonner'
 
 import { api } from '.'
+import type { Task } from '@/types/task.interface'
 
 const MODULE_PREFIX = '/tasks'
 
@@ -90,20 +91,10 @@ export const useDeleteTask = () => {
 export const useUpdateTask = () => {
   const queryClient = useQueryClient()
 
-  const updateTaskRequest = async ({
-    id,
-    title,
-    done
-  }: {
-    id: string
-    title?: string
-    done?: boolean
-  }): Promise<createTaskPayload> => {
+  const updateTaskRequest = async (payload: Task): Promise<Task> => {
     try {
-      const response = await api.patch(`${MODULE_PREFIX}/${id}`, {
-        title,
-        done
-      })
+      const { id, ...restPayload } = payload
+      const response = await api.patch(`${MODULE_PREFIX}/${id}`, restPayload)
       return response.data
     } catch (error: any) {
       throw new Error(error.response?.data?.message || 'Could not update task')

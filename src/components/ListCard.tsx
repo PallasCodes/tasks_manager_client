@@ -62,7 +62,7 @@ const ListCard = ({ list, deleteList, updateList }: Props) => {
   return (
     <Card className="shrink-0 grow min-w-sm max-w-lg w-full gap-0! py-5! overflow-y-auto list-card h-min">
       <CardHeader className="px-0! top-0 sticky bg-white dark:bg-card">
-        <CardTitle className="px-4">{list.title}</CardTitle>
+        <CardTitle className="px-4 text-lg">{list.title}</CardTitle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
