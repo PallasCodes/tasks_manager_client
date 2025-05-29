@@ -54,7 +54,7 @@ const CreateListDialog = ({
   }, [listToUpdate])
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={(open) => !open && close()}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-72!">
         <DialogHeader>

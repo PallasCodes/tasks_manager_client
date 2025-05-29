@@ -12,21 +12,30 @@ import { useTasks } from '@/context/TasksContext'
 import CreateListDialog from './CreateListDialog'
 import { Button } from './ui/button'
 import { Checkbox } from './ui/checkbox'
+import CreateTaskDialog from './CreateTaskDialog'
 
 const Sidebar = () => {
   const { lists, toggleList } = useTasks()
   const [createListOpen, setCreateListOpen] = useState(false)
+  const [showCreateTask, setShowCreateTask] = useState(false)
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
   return (
     <div className="min-w-60 max-w-72 w-full min-h-[calc(screen - 50px)] p-4">
-      <Button
-        variant="secondary"
-        className="text-md rounded-lg shadow-none py-6! px-4!"
+      <CreateTaskDialog
+        open={showCreateTask}
+        close={() => setShowCreateTask(false)}
       >
-        <Plus className="size-5" /> Create
-      </Button>
+        <Button
+          variant="secondary"
+          className="text-md rounded-lg shadow-none py-6! px-4!"
+          onClick={() => setShowCreateTask(true)}
+        >
+          <Plus className="size-5" /> Create
+        </Button>
+      </CreateTaskDialog>
+
       <div className="flex flex-col mt-7">
         <Button
           variant="ghost"
@@ -82,7 +91,6 @@ const Sidebar = () => {
           ))}
         </AccordionItem>
       </Accordion>
-
       <CreateListDialog
         open={createListOpen}
         close={() => setCreateListOpen(false)}
