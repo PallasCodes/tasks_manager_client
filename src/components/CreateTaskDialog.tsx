@@ -1,5 +1,5 @@
 import { useCreateList, useUpdateList } from '@/api/lists.api'
-import CreateTaskForm from '@/forms/CreateTaskForm'
+import CreateTaskForm, { type CreateTaskFormData } from '@/forms/CreateTaskForm'
 import type { List } from '@/types/list.interface'
 import { DialogClose } from '@radix-ui/react-dialog'
 import { Loader2 } from 'lucide-react'
@@ -13,6 +13,8 @@ import {
   DialogTitle,
   DialogTrigger
 } from './ui/dialog'
+import { useCreateTask } from '@/api/tasks.api'
+import type { Task } from '@/types/task.interface'
 
 interface Props {
   open: boolean
@@ -25,14 +27,15 @@ const CreateTaskDialog = ({
   open,
   close
 }: React.PropsWithChildren<Props>) => {
-  const { createList, isLoading: createIsLoading } = useCreateList()
-  const { updateList, isLoading: updateIsLoading } = useUpdateList()
+  const { createTask, isLoading } = useCreateTask()
 
-  const handleSubmit = (): Promise<void> => {
-    return new Promise((resolve) => {
-      console.log('first')
-      resolve()
-    })
+  const handleSubmit = async (task: CreateTaskFormData): Promise<void> => {
+    try {
+      await createTask(task)
+      close()
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -56,14 +59,8 @@ const CreateTaskDialog = ({
                   Cancel
                 </Button>
               </DialogClose>
-              <Button
-                className="rounded-xl gap-1"
-                onClick={handleSubmit}
-                type="submit"
-              >
-                {(createIsLoading || updateIsLoading) && (
-                  <Loader2 className="animate-spin" />
-                )}
+              <Button className="rounded-xl gap-1" type="submit">
+                {isLoading && <Loader2 className="animate-spin" />}
                 Done
               </Button>
             </DialogFooter>

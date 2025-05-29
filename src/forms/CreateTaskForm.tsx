@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -8,7 +8,6 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Select,
   SelectContent,
@@ -16,23 +15,22 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { Loader2 } from 'lucide-react'
+import { useTasks } from '@/context/TasksContext'
+import { zodResolver } from '@hookform/resolvers/zod'
+import type React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Checkbox } from '@/components/ui/checkbox'
-import { useTasks } from '@/context/TasksContext'
-import type React from 'react'
 
 const formSchema = z.object({
   title: z.string().min(1).max(255),
-  list: z.string().min(1),
+  listId: z.string().min(1),
   pinned: z.boolean()
 })
 
 export type CreateTaskFormData = z.infer<typeof formSchema>
 
 type Props = {
-  onSave: (data: any) => Promise<any>
+  onSave: (data: CreateTaskFormData) => Promise<any>
   isLoading: boolean
   children: React.ReactNode
 }
@@ -44,7 +42,7 @@ const CreateTaskForm = ({ onSave, isLoading, children }: Props) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
-      list: '',
+      listId: '',
       pinned: false
     },
     mode: 'onBlur',
@@ -69,7 +67,7 @@ const CreateTaskForm = ({ onSave, isLoading, children }: Props) => {
 
         <FormField
           control={form.control}
-          name="list"
+          name="listId"
           render={({ field }) => (
             <FormItem>
               <Select onValueChange={field.onChange} defaultValue={field.value}>

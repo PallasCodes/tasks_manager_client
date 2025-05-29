@@ -41,9 +41,7 @@ export const useGetTasks = () => {
 export const useCreateTask = () => {
   const queryClient = useQueryClient()
 
-  const createTaskRequest = async (
-    payload: createTaskPayload
-  ): Promise<createTaskPayload> => {
+  const createTaskRequest = async (payload: Task): Promise<Task> => {
     try {
       const response = await api.post(MODULE_PREFIX, payload)
       return response.data
