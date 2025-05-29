@@ -15,8 +15,11 @@ const LoginPage = () => {
     password: string
   }) => {
     try {
-      const { user, token } = await requestLogin({ email, password })
-      login(user, token)
+      const { user, token, tokenExpiration } = await requestLogin({
+        email,
+        password
+      })
+      login(user, token, tokenExpiration)
     } catch (error) {
       console.error(error)
     }

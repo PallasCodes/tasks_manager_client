@@ -10,6 +10,7 @@ const MODULE_PREFIX = '/auth'
 type AuthResponse = {
   token: string
   user: User
+  tokenExpiration: number
 }
 
 type LoginPayload = {

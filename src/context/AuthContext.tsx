@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 interface AuthContextType {
   user: User | null
-  login: (user: User, token: string) => void
+  login: (user: User, token: string, tokenExpiration: number) => void
   logout: () => void
 }
 
@@ -15,20 +15,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate()
   const [user, setUser] = useState<User | null>(null)
 
-  const login = (user: User, token: string) => {
-    setUser(user)
-    localStorage.setItem('token', token)
-    localStorage.setItem('user', JSON.stringify(user))
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    navigate('/')
-  }
-
   const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    localStorage.removeItem('tokenExpiration')
     api.defaults.headers.common['Authorization'] = ''
     setUser(null)
     navigate('/login')
+  }
+
+  const login = (user: User, token: string, tokenExpiration: number) => {
+    setUser(user)
+    localStorage.setItem('token', token)
+    localStorage.setItem('user', JSON.stringify(user))
+    localStorage.setItem('tokenExpiration', tokenExpiration.toString())
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    navigate('/')
+
+    const now = new Date().getTime()
+    const loggedTimeLeft = tokenExpiration - now - 1000
+    console.log('🚀 ~ login ~ loggedTimeLeft:', loggedTimeLeft)
+
+    setTimeout(() => {
+      logout()
+    }, loggedTimeLeft)
   }
 
   return (

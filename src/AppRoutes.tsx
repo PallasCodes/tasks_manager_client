@@ -25,11 +25,16 @@ const AppRoutes = () => {
     }
 
     const token = localStorage.getItem('token')
+    const tokenExpiration = Number(localStorage.getItem('tokenExpiration'))
     let user = localStorage.getItem('user')
 
-    if (token && user) {
-      user = JSON.parse(user)
-      login(user as unknown as User, token)
+    if (token && user && tokenExpiration) {
+      const now = new Date().getTime()
+
+      if (now < tokenExpiration - 15 * 60 * 1000) {
+        user = JSON.parse(user)
+        login(user as unknown as User, token, tokenExpiration)
+      }
     }
   }, [])
 
