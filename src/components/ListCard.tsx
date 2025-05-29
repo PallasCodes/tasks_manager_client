@@ -25,9 +25,10 @@ interface Props {
   list: List
   deleteList: (list: List) => void
   updateList: (list: List) => void
+  className?: string
 }
 
-const ListCard = ({ list, deleteList, updateList }: Props) => {
+const ListCard = ({ list, deleteList, updateList, className }: Props) => {
   const [showNewTaskInput, setShowNewTaskInput] = useState(false)
   const [newTask, setNewTask] = useState('')
   const { createTask, isLoading: addTaskIsLoading } = useCreateTask()
@@ -60,7 +61,9 @@ const ListCard = ({ list, deleteList, updateList }: Props) => {
   }
 
   return (
-    <Card className="shrink-0 grow min-w-sm max-w-lg w-full gap-0! py-5! overflow-y-auto list-card h-min">
+    <Card
+      className={`min-w-lg max-w-2xl gap-0! py-5! overflow-y-auto list-card h-min ${className}`}
+    >
       <CardHeader className="px-0! top-0 sticky bg-white dark:bg-card">
         <CardTitle className="px-4 text-lg">{list.title}</CardTitle>
         <DropdownMenu>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { toast } from 'sonner'
 
 import { api } from '.'
@@ -11,6 +11,31 @@ const MODULE_PREFIX = '/tasks'
 type createTaskPayload = {
   title: string
   listId: string
+}
+
+export const useGetTasks = () => {
+  const getTasksRequest = async (): Promise<Task[]> => {
+    try {
+      const response = await api.get(MODULE_PREFIX, {
+        params: { pinned: true }
+      })
+      return response.data
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || 'Could not get tasks')
+    }
+  }
+
+  const {
+    data: tasks,
+    isLoading,
+    error
+  } = useQuery('fetchTasks', getTasksRequest)
+
+  return {
+    tasks,
+    isLoading,
+    error
+  }
 }
 
 export const useCreateTask = () => {

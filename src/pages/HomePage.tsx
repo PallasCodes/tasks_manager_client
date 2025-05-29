@@ -31,7 +31,7 @@ const HomePage = () => {
   }, [apiLists])
 
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-row gap-4 w-full">
       {lists
         ?.filter((list) => !list.hidden)
         .map((list) => (
@@ -40,6 +40,7 @@ const HomePage = () => {
             list={list}
             deleteList={deleteList}
             updateList={updateList}
+            className="grow"
           />
         ))}
       <DeleteListDialog
