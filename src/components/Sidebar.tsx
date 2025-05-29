@@ -1,3 +1,7 @@
+import { useState } from 'react'
+import { useLocation, useNavigate, useNavigation } from 'react-router-dom'
+import { CircleCheckBig, Plus, Star } from 'lucide-react'
+
 import {
   Accordion,
   AccordionContent,
@@ -5,15 +9,15 @@ import {
   AccordionTrigger
 } from '@/components/ui/accordion'
 import { useTasks } from '@/context/TasksContext'
-import { CircleCheckBig, Plus, Star } from 'lucide-react'
 import CreateListDialog from './CreateListDialog'
 import { Button } from './ui/button'
 import { Checkbox } from './ui/checkbox'
-import { useState } from 'react'
 
 const Sidebar = () => {
   const { lists, toggleList } = useTasks()
   const [createListOpen, setCreateListOpen] = useState(false)
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   return (
     <div className="min-w-60 max-w-72 w-full min-h-[calc(screen - 50px)] p-4">
@@ -24,13 +28,26 @@ const Sidebar = () => {
         <Plus className="size-5" /> Create
       </Button>
       <div className="flex flex-col mt-7">
-        <Button className="bg-blue-50 rounded-3xl text-gray-900 justify-start gap-3 px-4! shadow-none! hover:bg-blue-200 transition-colors">
+        <Button
+          variant="ghost"
+          className={`rounded-3xl justify-start gap-3 px-4! py-0! ${
+            pathname === '/'
+              ? 'dark:bg-[#004a77] text-[rgba(0, 0, 0, 0.87)] dark:hover:bg-[#035080] bg-blue-200 hover:bg-blue-200'
+              : ''
+          }`}
+          onClick={() => navigate('/')}
+        >
           <CircleCheckBig />
           All Tasks
         </Button>
         <Button
           variant="ghost"
-          className="justify-start gap-3 rounded-3xl px-4!"
+          className={`justify-start gap-3 rounded-3xl px-4! py-0! ${
+            pathname === '/pinned'
+              ? 'dark:bg-[#004a77] text-[rgba(0, 0, 0, 0.87)] dark:hover:bg-[#035080] bg-blue-200 hover:bg-blue-200'
+              : ''
+          }`}
+          onClick={() => navigate('/pinned')}
         >
           <Star />
           Pinned

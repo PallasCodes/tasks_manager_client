@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import SettingsPage from './pages/SettingsPage'
 import type { User } from './types/user.interface'
+import PinnedTasksPage from './pages/PinnedTasksPage'
 
 const AppRoutes = () => {
   const { login } = useAuth()
@@ -45,6 +46,14 @@ const AppRoutes = () => {
           element={
             <MainLayout>
               <HomePage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/pinned"
+          element={
+            <MainLayout>
+              <PinnedTasksPage />
             </MainLayout>
           }
         />
