@@ -13,8 +13,6 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   const [lists, setLists] = React.useState<List[]>([])
 
   const toggleList = (listId: string) => {
-    console.log(listId)
-
     setLists((prevLists) =>
       prevLists.map((list) =>
         list.id === listId ? { ...list, hidden: !list.hidden } : list

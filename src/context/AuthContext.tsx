@@ -34,7 +34,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const now = new Date().getTime()
     const loggedTimeLeft = tokenExpiration - now - 1000
-    console.log('🚀 ~ login ~ loggedTimeLeft:', loggedTimeLeft)
 
     setTimeout(() => {
       logout()

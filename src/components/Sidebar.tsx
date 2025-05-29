@@ -1,6 +1,6 @@
-import { useState } from 'react'
-import { useLocation, useNavigate, useNavigation } from 'react-router-dom'
 import { CircleCheckBig, Plus, Star } from 'lucide-react'
+import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
   Accordion,
@@ -10,9 +10,9 @@ import {
 } from '@/components/ui/accordion'
 import { useTasks } from '@/context/TasksContext'
 import CreateListDialog from './CreateListDialog'
+import CreateTaskDialog from './CreateTaskDialog'
 import { Button } from './ui/button'
 import { Checkbox } from './ui/checkbox'
-import CreateTaskDialog from './CreateTaskDialog'
 
 const Sidebar = () => {
   const { lists, toggleList } = useTasks()

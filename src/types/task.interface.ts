@@ -4,5 +4,6 @@ export interface Task extends BaseEntity {
   id?: string
   title: string
   done?: boolean
-  pinned: boolean
+  pinned?: boolean
+  listId?: string
 }

@@ -1,4 +1,4 @@
-import { useCreateList, useUpdateList } from '@/api/lists.api'
+import { useCreateTask } from '@/api/tasks.api'
 import CreateTaskForm, { type CreateTaskFormData } from '@/forms/CreateTaskForm'
 import type { List } from '@/types/list.interface'
 import { DialogClose } from '@radix-ui/react-dialog'
@@ -13,8 +13,6 @@ import {
   DialogTitle,
   DialogTrigger
 } from './ui/dialog'
-import { useCreateTask } from '@/api/tasks.api'
-import type { Task } from '@/types/task.interface'
 
 interface Props {
   open: boolean

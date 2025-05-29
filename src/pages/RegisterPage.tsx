@@ -13,8 +13,8 @@ const RegisterPage = () => {
     password: string
     username: string
   }) => {
-    const { user, token } = await register(payload)
-    login(user, token)
+    const { user, token, tokenExpiration } = await register(payload)
+    login(user, token, tokenExpiration)
     toast.success('Your account has been created! 🙌')
   }
 

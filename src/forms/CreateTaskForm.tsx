@@ -35,7 +35,7 @@ type Props = {
   children: React.ReactNode
 }
 
-const CreateTaskForm = ({ onSave, isLoading, children }: Props) => {
+const CreateTaskForm = ({ onSave, children }: Props) => {
   const { lists } = useTasks()
 
   const form = useForm<CreateTaskFormData>({
