@@ -9,7 +9,11 @@ import { useState } from 'react'
 const HomePage = () => {
   const { lists: _ } = useGetLists()
   const { lists } = useTasks()
-  const [selectedList, setSelectedList] = useState<List | undefined>(undefined)
+  const [selectedList, setSelectedList] = useState<List>({
+    id: '-1',
+    tasks: [],
+    title: ''
+  })
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showUpdateDialog, setShowUpdateDialog] = useState(false)
 
