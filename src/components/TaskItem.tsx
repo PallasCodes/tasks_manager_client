@@ -23,16 +23,25 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
     setNewTitle(task.title)
   }
 
-  const handleUpdateTask = async (fnPayload: {
+  const handleUpdateTask = async ({
+    e,
+    done,
+    pinned,
+    title
+  }: {
     e?: FormEvent<HTMLFormElement>
     done?: boolean
     pinned?: boolean
     title?: string
   }) => {
     try {
-      const { e, ...restPayload } = fnPayload
       e?.preventDefault()
-      const payload = { ...task, ...restPayload }
+      const payload = {
+        id: task.id,
+        title: title ?? task.title,
+        done: done ?? task.done,
+        pinned: pinned ?? task.pinned
+      }
 
       await updateTask(payload)
     } catch (error) {

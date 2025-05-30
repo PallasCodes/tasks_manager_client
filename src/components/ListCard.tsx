@@ -46,7 +46,7 @@ const ListCard = ({ list, deleteList, updateList, className }: Props) => {
 
     try {
       await createTask({
-        listId: list.id as string,
+        listId: list.id,
         title: trimmedNewTask
       })
       setNewTask('')

@@ -3,15 +3,10 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { toast } from 'sonner'
 
 import { api } from '.'
-import type { Task } from '@/types/task.interface'
+import type { CreateTask, Task, UpdateTask } from '@/types/task.interface'
 import type { List } from '@/types/list.interface'
 
 const MODULE_PREFIX = '/tasks'
-
-type createTaskPayload = {
-  title: string
-  listId: string
-}
 
 export const useGetTasks = () => {
   const getTasksRequest = async (): Promise<Task[]> => {
@@ -41,7 +36,7 @@ export const useGetTasks = () => {
 export const useCreateTask = () => {
   const queryClient = useQueryClient()
 
-  const createTaskRequest = async (payload: Task): Promise<Task> => {
+  const createTaskRequest = async (payload: CreateTask): Promise<Task> => {
     try {
       const response = await api.post(MODULE_PREFIX, payload)
       return response.data
@@ -78,7 +73,7 @@ export const useCreateTask = () => {
 export const useDeleteTask = () => {
   const queryClient = useQueryClient()
 
-  const deleteTaskRequest = async (id: string): Promise<createTaskPayload> => {
+  const deleteTaskRequest = async (id: string): Promise<CreateTask> => {
     try {
       const response = await api.delete(`${MODULE_PREFIX}/${id}`)
       return response.data
@@ -115,9 +110,9 @@ export const useDeleteTask = () => {
 export const useUpdateTask = () => {
   const queryClient = useQueryClient()
 
-  const updateTaskRequest = async (payload: Task): Promise<Task> => {
+  const updateTaskRequest = async (payload: UpdateTask): Promise<Task> => {
     try {
-      const { id, createdAt, updatedAt, ...restPayload } = payload
+      const { id, ...restPayload } = payload
       const response = await api.patch(`${MODULE_PREFIX}/${id}`, restPayload)
       return response.data
     } catch (error: any) {
