@@ -19,6 +19,7 @@ import { useTasks } from '@/context/TasksContext'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 
 const formSchema = z.object({
@@ -36,6 +37,8 @@ type Props = {
 }
 
 const CreateTaskForm = ({ onSave, children }: Props) => {
+  const { t } = useTranslation()
+
   const { lists } = useTasks()
 
   const form = useForm<CreateTaskFormData>({
@@ -58,7 +61,11 @@ const CreateTaskForm = ({ onSave, children }: Props) => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input {...field} placeholder="Title" autoFocus />
+                <Input
+                  {...field}
+                  placeholder={t('createTaskDialog.titleInput')}
+                  autoFocus
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,7 +80,9 @@ const CreateTaskForm = ({ onSave, children }: Props) => {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="List" />
+                    <SelectValue
+                      placeholder={t('createTaskDialog.listInput')}
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -93,7 +102,7 @@ const CreateTaskForm = ({ onSave, children }: Props) => {
           name="pinned"
           render={({ field }) => (
             <FormItem className="flex flex-row items-center">
-              <FormLabel>Pinned</FormLabel>
+              <FormLabel>{t('createTaskDialog.pinned')}</FormLabel>
               <FormControl>
                 <Checkbox
                   checked={field.value}

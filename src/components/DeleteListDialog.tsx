@@ -10,6 +10,7 @@ import {
   AlertDialogTitle
 } from './ui/alert-dialog'
 import { useDeleteList } from '@/api/lists.api'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   list?: List
@@ -18,6 +19,8 @@ interface Props {
 }
 
 const DeleteListDialog = ({ list, open, close }: Props) => {
+  const { t } = useTranslation()
+
   const { deleteList, isLoading } = useDeleteList()
 
   const handleDeleteList = () => {
@@ -30,22 +33,24 @@ const DeleteListDialog = ({ list, open, close }: Props) => {
   }
 
   return (
-    <AlertDialog open={open}>
+    <AlertDialog open={open} onOpenChange={(open) => !open && close()}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete the list: {list?.title}</AlertDialogTitle>
+          <AlertDialogTitle>
+            {t('deleteListDialog.title')}: {list?.title}
+          </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogDescription>
-          All tasks within this list will be deleted as well
+          {t('deleteListDialog.descriptionMsg')}
         </AlertDialogDescription>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t('action.cancel')}</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDeleteList}
             className="bg-red-500 text-white hover:bg-red-600 transition-colors"
             disabled={isLoading}
           >
-            Delete
+            {t('action.delete')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

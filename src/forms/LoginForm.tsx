@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from 'i18next'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -43,7 +44,9 @@ const LoginForm = ({ onSave, isLoading }: Props) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSave)} className="space-y-4">
         <div className="mb-6">
-          <h2 className="font-bold text-2xl text-center">Login</h2>
+          <h2 className="font-bold text-2xl text-center">
+            {t('loginPage.login')}
+          </h2>
         </div>
 
         <FormField
@@ -51,7 +54,7 @@ const LoginForm = ({ onSave, isLoading }: Props) => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('loginPage.email')}</FormLabel>
               <FormControl>
                 <Input {...field} type="email" />
               </FormControl>
@@ -65,7 +68,7 @@ const LoginForm = ({ onSave, isLoading }: Props) => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{t('loginPage.password')}</FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input {...field} type={showPassword ? 'text' : 'password'} />
@@ -86,7 +89,7 @@ const LoginForm = ({ onSave, isLoading }: Props) => {
 
         <Button type="submit" className="w-full uppercase" disabled={isLoading}>
           {isLoading && <Loader2 className="animate-spin" />}
-          Login
+          {t('loginPage.loginBtn')}
         </Button>
       </form>
     </Form>

@@ -9,6 +9,7 @@ import {
   AccordionTrigger
 } from '@/components/ui/accordion'
 import { useTasks } from '@/context/TasksContext'
+import { useTranslation } from 'react-i18next'
 import CreateListDialog from './CreateListDialog'
 import CreateTaskDialog from './CreateTaskDialog'
 import { Button } from './ui/button'
@@ -20,6 +21,7 @@ const Sidebar = () => {
   const [showCreateTask, setShowCreateTask] = useState(false)
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const { t } = useTranslation()
 
   return (
     <div className="min-w-60 max-w-72 w-full min-h-[calc(screen - 50px)] p-4">
@@ -32,7 +34,7 @@ const Sidebar = () => {
           className="text-md rounded-lg shadow-none py-6! px-4!"
           onClick={() => setShowCreateTask(true)}
         >
-          <Plus className="size-5" /> Create
+          <Plus className="size-5" /> {t('sidebar.createBtn')}
         </Button>
       </CreateTaskDialog>
 
@@ -47,7 +49,7 @@ const Sidebar = () => {
           onClick={() => navigate('/')}
         >
           <CircleCheckBig />
-          All Tasks
+          {t('sidebar.allTasksBtn')}
         </Button>
         <Button
           variant="ghost"
@@ -59,7 +61,7 @@ const Sidebar = () => {
           onClick={() => navigate('/pinned')}
         >
           <Star />
-          Pinned
+          {t('sidebar.pinnedBtn')}
         </Button>
       </div>
       <Accordion
@@ -69,7 +71,7 @@ const Sidebar = () => {
         defaultValue="item-1"
       >
         <AccordionItem value="item-1">
-          <AccordionTrigger>Lists</AccordionTrigger>
+          <AccordionTrigger>{t('sidebar.lists')}</AccordionTrigger>
           {lists?.map((list) => (
             <AccordionContent
               className="flex items-center gap-3 w-full"
@@ -101,7 +103,7 @@ const Sidebar = () => {
           onClick={() => setCreateListOpen(true)}
         >
           <Plus className="size-5" />
-          Create List
+          {t('sidebar.createListBtn')}
         </Button>
       </CreateListDialog>
     </div>

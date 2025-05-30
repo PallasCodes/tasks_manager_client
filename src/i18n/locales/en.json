@@ -4,5 +4,55 @@
     "language": "Language",
     "toggleDarkMode": "Toggle dark mode",
     "logout": "Logout"
+  },
+  "sidebar": {
+    "createBtn": "Create",
+    "allTasksBtn": "All Tasks",
+    "pinnedBtn": "Pinned",
+    "lists": "Lists",
+    "createListBtn": "Create List"
+  },
+  "listCard": {
+    "changeListName": "Change list's name",
+    "addTaskBtn": "Add task",
+    "done": "Done"
+  },
+  "action": {
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "done": "Done",
+    "update": "Update"
+  },
+  "loginPage": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loginBtn": "Login",
+    "registerMsg": "Don't have an account yet?",
+    "registerBtn": "Register"
+  },
+  "registerPage": {
+    "accountCreationMsg": "Your account has been created! 🙌",
+    "loginMsg": "Already registered?",
+    "loginBtn": "Login",
+    "createAccount": "Create an account",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "repeatPassword": "Repeat password",
+    "registerBtn": "Register"
+  },
+  "createListDialog": {
+    "nameInput": "Type a name"
+  },
+  "createTaskDialog": {
+    "title": "Create a Task",
+    "titleInput": "Title",
+    "listInput": "List",
+    "pinned": "Pinned"
+  },
+  "deleteListDialog": {
+    "title": "Delete list",
+    "descriptionMsg": "All tasks within this list will be deleted as well"
   }
 }

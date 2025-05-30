@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from './ui/dialog'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   open: boolean
@@ -25,6 +26,8 @@ const CreateTaskDialog = ({
   open,
   close
 }: React.PropsWithChildren<Props>) => {
+  const { t } = useTranslation()
+
   const { createTask, isLoading } = useCreateTask()
 
   const handleSubmit = async (task: CreateTaskFormData): Promise<void> => {
@@ -41,8 +44,8 @@ const CreateTaskDialog = ({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-sm!">
         <DialogHeader>
-          <DialogTitle>Create a new Task</DialogTitle>
-          <DialogDescription>New task</DialogDescription>
+          <DialogTitle>{t('createTaskDialog.title')}</DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
         <div>
           <CreateTaskForm onSave={handleSubmit} isLoading={false}>
@@ -54,12 +57,12 @@ const CreateTaskDialog = ({
                   onClick={close}
                   type="button"
                 >
-                  Cancel
+                  {t('action.cancel')}
                 </Button>
               </DialogClose>
               <Button className="rounded-xl gap-1" type="submit">
                 {isLoading && <Loader2 className="animate-spin" />}
-                Done
+                {t('action.done')}
               </Button>
             </DialogFooter>
           </CreateTaskForm>

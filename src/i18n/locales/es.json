@@ -4,5 +4,55 @@
     "language": "Idioma",
     "toggleDarkMode": "Cambiar modo oscuro",
     "logout": "Cerrar sesión"
+  },
+  "sidebar": {
+    "createBtn": "Crear",
+    "allTasksBtn": "Todas las tareas",
+    "pinnedBtn": "Destacadas",
+    "lists": "Listas",
+    "createListBtn": "Crear lista"
+  },
+  "listCard": {
+    "changeListName": "Cambiar nombre de lista",
+    "addTaskBtn": "Añadir tarea",
+    "done": "Completadas"
+  },
+  "action": {
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "done": "Hecho",
+    "update": "Actualizar"
+  },
+  "loginPage": {
+    "login": "Iniciar sesión",
+    "email": "Correo",
+    "password": "Contraseña",
+    "loginBtn": "Iniciar sesión",
+    "registerMsg": "¿No tienes cuenta?",
+    "registerBtn": "Registrate"
+  },
+  "registerPage": {
+    "accountCreationMsg": "¡Tu cuenta ha sido creada! 🙌",
+    "loginMsg": "¿Ya estás registrado?",
+    "loginBtn": "Inicia sesión",
+    "createAccount": "Crear una cuenta",
+    "email": "Correo",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "repeatPassword": "Repetir contraseña",
+    "registerBtn": "Registrarme"
+  },
+  "createListDialog": {
+    "nameInput": "Escribe un nombre"
+  },
+  "createTaskDialog": {
+    "title": "Crear tarea",
+    "titleInput": "Título",
+    "listInput": "Lista",
+    "pinned": "Destacada"
+  },
+  "deleteListDialog": {
+    "title": "Eliminar lista",
+    "descriptionMsg": "También se borrarán todas las tareas dentro de esta lista"
   }
 }

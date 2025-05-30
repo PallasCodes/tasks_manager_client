@@ -14,6 +14,7 @@ import { Input } from './ui/input'
 import { useCreateList, useUpdateList } from '@/api/lists.api'
 import { Loader2 } from 'lucide-react'
 import type { List } from '@/types/list.interface'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   open: boolean
@@ -21,14 +22,14 @@ interface Props {
   list?: List
 }
 
-// TODO: fix open and close behavior
-
 const CreateListDialog = ({
   children,
   open,
   close,
   list: listToUpdate
 }: React.PropsWithChildren<Props>) => {
+  const { t } = useTranslation()
+
   const [listName, setListName] = useState('')
   const { createList, isLoading: createIsLoading } = useCreateList()
   const { updateList, isLoading: updateIsLoading } = useUpdateList()
@@ -63,7 +64,7 @@ const CreateListDialog = ({
           </DialogTitle>
           <DialogDescription className="mt-4">
             <Input
-              placeholder="Type a name"
+              placeholder={t('createListDialog.nameInput')}
               value={listName}
               onChange={(e) => setListName(e.target.value)}
               disabled={createIsLoading || updateIsLoading}
@@ -73,7 +74,7 @@ const CreateListDialog = ({
         <DialogFooter className="gap-4 mt-4">
           <DialogClose asChild>
             <Button variant="secondary" className="rounded-xl" onClick={close}>
-              Cancel
+              {t('action.cancel')}
             </Button>
           </DialogClose>
           <Button
@@ -84,7 +85,7 @@ const CreateListDialog = ({
             {(createIsLoading || updateIsLoading) && (
               <Loader2 className="animate-spin" />
             )}
-            {listToUpdate ? 'Update' : 'Done'}
+            {listToUpdate ? t('action.update') : t('action.done')}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -20,6 +20,7 @@ import {
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   list: List
@@ -29,6 +30,8 @@ interface Props {
 }
 
 const ListCard = ({ list, deleteList, updateList, className }: Props) => {
+  const { t } = useTranslation()
+
   const [showNewTaskInput, setShowNewTaskInput] = useState(false)
   const [newTask, setNewTask] = useState('')
   const { createTask, isLoading: addTaskIsLoading } = useCreateTask()
@@ -80,13 +83,13 @@ const ListCard = ({ list, deleteList, updateList, className }: Props) => {
               className="cursor-pointer"
               onClick={() => deleteList(list)}
             >
-              Delete
+              {t('action.delete')}
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
               onClick={() => updateList(list)}
             >
-              Change list's name
+              {t('listCard.changeListName')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -97,7 +100,7 @@ const ListCard = ({ list, deleteList, updateList, className }: Props) => {
           onClick={() => setShowNewTaskInput(true)}
         >
           <CheckLine />
-          Add a task
+          {t('listCard.addTaskBtn')}
         </Button>
 
         {showNewTaskInput && (
@@ -132,7 +135,8 @@ const ListCard = ({ list, deleteList, updateList, className }: Props) => {
         <Accordion collapsible type="single">
           <AccordionItem value="tasks-done">
             <AccordionTrigger className="px-4">
-              Done ({list.tasks?.filter((task) => task.done).length})
+              {t('listCard.done')} (
+              {list.tasks?.filter((task) => task.done).length})
             </AccordionTrigger>
             {list.tasks
               ?.filter((task) => task.done)

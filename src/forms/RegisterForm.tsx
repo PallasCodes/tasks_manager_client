@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const formSchema = z
   .object({
@@ -34,6 +35,8 @@ type Props = {
 }
 
 const RegisterForm = ({ onSave, isLoading }: Props) => {
+  const { t } = useTranslation()
+
   const [showPassword, setShowPassword] = useState(false)
   const [showRepeat, setShowRepeat] = useState(false)
 
@@ -58,7 +61,9 @@ const RegisterForm = ({ onSave, isLoading }: Props) => {
         className="space-y-4"
       >
         <div className="mb-6">
-          <h2 className="font-bold text-2xl text-center">Create an account</h2>
+          <h2 className="font-bold text-2xl text-center">
+            {t('registerPage.createAccount')}
+          </h2>
         </div>
 
         <FormField
@@ -66,7 +71,7 @@ const RegisterForm = ({ onSave, isLoading }: Props) => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('registerPage.email')}</FormLabel>
               <FormControl>
                 <Input {...field} type="email" />
               </FormControl>
