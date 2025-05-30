@@ -1,6 +1,29 @@
-import Sidebar from '@/components/Sidebar'
-import Header from '@/components/Header'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
+
+import Header from '@/components/Header'
+import Sidebar from '@/components/Sidebar'
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    x: 100
+  },
+  in: {
+    opacity: 1,
+    x: 0
+  },
+  out: {
+    opacity: 0,
+    x: -100
+  }
+}
+
+const pageTransition = {
+  type: 'tween',
+  ease: 'easeInOut',
+  duration: 0.2
+}
 
 const MainLayout = ({ children }: React.PropsWithChildren) => {
   const [hiddenSidebar, setHiddenSidebar] = useState(false)
@@ -23,9 +46,18 @@ const MainLayout = ({ children }: React.PropsWithChildren) => {
               ${hiddenSidebar ? 'ml-0' : 'ml-72'}
             `}
         >
-          <div className="h-full overflow-x-auto overflow-y-hidden p-6 flex gap-6 custom-scrollbar">
-            {children}
-          </div>
+          <motion.div
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            transition={pageTransition}
+            className="p-4"
+          >
+            <div className="h-full overflow-x-auto overflow-y-hidden p-6 flex gap-6 custom-scrollbar">
+              {children}
+            </div>
+          </motion.div>
         </main>
       </div>
     </div>

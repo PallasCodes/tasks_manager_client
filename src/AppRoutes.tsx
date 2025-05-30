@@ -1,20 +1,23 @@
 import { useEffect } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
+import { AnimatePresence } from 'framer-motion'
+import { Loader2 } from 'lucide-react'
 import ProtectedRoute from './auth/ProtectedRoute'
 import UnprotectedRoute from './auth/UnprotectedRoute'
 import { useAuth } from './context/AuthContext'
 import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
+import PinnedTasksPage from './pages/PinnedTasksPage'
 import RegisterPage from './pages/RegisterPage'
 import SettingsPage from './pages/SettingsPage'
 import type { User } from './types/user.interface'
-import PinnedTasksPage from './pages/PinnedTasksPage'
-import { Loader2 } from 'lucide-react'
 
 const AppRoutes = () => {
+  const location = useLocation()
   const { login, isLoading, setIsLoading } = useAuth()
+
   useEffect(() => {
     const darkMode = localStorage.getItem('darkMode')
 
@@ -49,34 +52,36 @@ const AppRoutes = () => {
   }
 
   return (
-    <Routes>
-      <Route element={<UnprotectedRoute />}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Route>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route element={<UnprotectedRoute />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
 
-      <Route element={<ProtectedRoute />}>
-        <Route
-          path="/"
-          element={
-            <MainLayout>
-              <HomePage />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/pinned"
-          element={
-            <MainLayout>
-              <PinnedTasksPage />
-            </MainLayout>
-          }
-        />
-        <Route path="/settings" element={<SettingsPage />} />
-      </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route
+            path="/"
+            element={
+              <MainLayout>
+                <HomePage />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/pinned"
+            element={
+              <MainLayout>
+                <PinnedTasksPage />
+              </MainLayout>
+            }
+          />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Route>
 
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </AnimatePresence>
   )
 }
 
