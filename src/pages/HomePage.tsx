@@ -4,11 +4,11 @@ import DeleteListDialog from '@/components/DeleteListDialog'
 import ListCard from '@/components/ListCard'
 import { useTasks } from '@/context/TasksContext'
 import type { List } from '@/types/list.interface'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const HomePage = () => {
-  const { lists: apiLists } = useGetLists()
-  const { setLists, lists } = useTasks()
+  const { lists: _ } = useGetLists()
+  const { lists } = useTasks()
   const [selectedList, setSelectedList] = useState<List | undefined>(undefined)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showUpdateDialog, setShowUpdateDialog] = useState(false)
@@ -22,13 +22,6 @@ const HomePage = () => {
     setSelectedList(list)
     setShowUpdateDialog(true)
   }
-
-  useEffect(() => {
-    if (apiLists) {
-      const mappedLists = apiLists.map((list) => ({ ...list, hidden: false }))
-      setLists(mappedLists)
-    }
-  }, [apiLists])
 
   return (
     <div className="flex flex-row gap-4 w-full">

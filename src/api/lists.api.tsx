@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 
 import type { List } from '@/types/list.interface'
 import { api } from '.'
+import { useTasks } from '@/context/TasksContext'
 
 const MODULE_PREFIX = '/lists'
 
@@ -45,6 +46,8 @@ export const useCreateList = () => {
 }
 
 export const useGetLists = () => {
+  const { lists: storedLists, setLists } = useTasks()
+
   const getListsRequest = async (): Promise<List[]> => {
     try {
       const response = await api.get(MODULE_PREFIX)
@@ -60,7 +63,17 @@ export const useGetLists = () => {
     error,
     refetch,
     isFetching
-  } = useQuery('fetchLists', getListsRequest)
+  } = useQuery('fetchLists', {
+    queryFn: getListsRequest,
+    onSuccess: (data: List[]) => {
+      if (!data) return
+      const mappedLists = data.map((list) => ({
+        ...list,
+        hidden: storedLists.find((l) => l.id === list.id)?.hidden ?? false
+      }))
+      setLists(mappedLists)
+    }
+  })
 
   return {
     lists,
