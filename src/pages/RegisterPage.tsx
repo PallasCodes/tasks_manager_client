@@ -17,7 +17,7 @@ const RegisterPage = () => {
     username: string
   }) => {
     const { user, token, tokenExpiration } = await register(payload)
-    login(user, token, tokenExpiration)
+    login(user, token, tokenExpiration, true)
     toast.success(t('registerPage.accountCreationMsg'))
   }
 

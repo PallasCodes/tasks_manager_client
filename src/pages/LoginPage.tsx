@@ -22,7 +22,7 @@ const LoginPage = () => {
         email,
         password
       })
-      login(user, token, tokenExpiration)
+      login(user, token, tokenExpiration, true)
     } catch (error) {
       console.error(error)
     }

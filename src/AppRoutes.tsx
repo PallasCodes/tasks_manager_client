@@ -11,10 +11,10 @@ import RegisterPage from './pages/RegisterPage'
 import SettingsPage from './pages/SettingsPage'
 import type { User } from './types/user.interface'
 import PinnedTasksPage from './pages/PinnedTasksPage'
+import { Loader2 } from 'lucide-react'
 
 const AppRoutes = () => {
-  const { login } = useAuth()
-
+  const { login, isLoading, setIsLoading } = useAuth()
   useEffect(() => {
     const darkMode = localStorage.getItem('darkMode')
 
@@ -28,6 +28,8 @@ const AppRoutes = () => {
     const tokenExpiration = Number(localStorage.getItem('tokenExpiration'))
     let user = localStorage.getItem('user')
 
+    setIsLoading(false)
+
     if (token && user && tokenExpiration) {
       const now = new Date().getTime()
 
@@ -37,6 +39,14 @@ const AppRoutes = () => {
       }
     }
   }, [])
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 bg-gray-950 flex items-center justify-center">
+        <Loader2 className="animate-spin" />
+      </div>
+    )
+  }
 
   return (
     <Routes>

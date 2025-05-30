@@ -5,8 +5,15 @@ import { useNavigate } from 'react-router-dom'
 
 interface AuthContextType {
   user: User | null
-  login: (user: User, token: string, tokenExpiration: number) => void
+  login: (
+    user: User,
+    token: string,
+    tokenExpiration: number,
+    goToHome?: boolean
+  ) => void
   logout: () => void
+  isLoading: boolean
+  setIsLoading: (val: boolean) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -14,6 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate()
   const [user, setUser] = useState<User | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   const logout = () => {
     localStorage.removeItem('token')
@@ -24,13 +32,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     navigate('/login')
   }
 
-  const login = (user: User, token: string, tokenExpiration: number) => {
+  const login = (
+    user: User,
+    token: string,
+    tokenExpiration: number,
+    goToHome?: boolean
+  ) => {
     setUser(user)
     localStorage.setItem('token', token)
     localStorage.setItem('user', JSON.stringify(user))
     localStorage.setItem('tokenExpiration', tokenExpiration.toString())
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    navigate('/')
+    if (goToHome) navigate('/')
 
     const now = new Date().getTime()
     const loggedTimeLeft = tokenExpiration - now - 1000
@@ -41,7 +54,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, isLoading, setIsLoading }}
+    >
       {children}
     </AuthContext.Provider>
   )
