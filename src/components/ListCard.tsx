@@ -72,7 +72,7 @@ const ListCard = ({
 
   return (
     <Card
-      className={`min-w-lg max-w-2xl gap-0! py-5! overflow-y-auto list-card h-min ${className}`}
+      className={`gap-0! py-5! overflow-y-auto list-card h-min ${className}`}
     >
       <CardHeader className="px-0! top-0 sticky bg-white dark:bg-card">
         <CardTitle className="px-4 text-lg">{list.title}</CardTitle>

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import CreateListDialog from './CreateListDialog'
 import DeleteListDialog from './DeleteListDialog'
 import ListCard from './ListCard'
+import { ScrollArea, ScrollBar } from './ui/scroll-area'
 
 interface Props {
   lists: List[]
@@ -30,19 +31,25 @@ const ListsContainer = ({ lists, className, showCardSettings }: Props) => {
   }
 
   return (
-    <div className={`${className}`}>
-      {lists
-        ?.filter((list) => !list.hidden)
-        .map((list) => (
-          <ListCard
-            key={list.id}
-            list={list}
-            deleteList={deleteList}
-            updateList={updateList}
-            className="grow"
-            showSettings={showCardSettings}
-          />
-        ))}
+    <ScrollArea className="w-full h-full">
+      <div className="flex flex-row gap-4 min-w-max px-4 py-2">
+        {lists
+          ?.filter((list) => !list.hidden)
+          .map((list) => (
+            <div
+              key={list.id}
+              className="w-full min-w-lg max-w-2xl flex-shrink-0"
+            >
+              <ListCard
+                key={list.id}
+                list={list}
+                deleteList={deleteList}
+                updateList={updateList}
+                showSettings={showCardSettings}
+              />
+            </div>
+          ))}
+      </div>
       <DeleteListDialog
         list={selectedList}
         open={showDeleteDialog}
@@ -53,7 +60,8 @@ const ListsContainer = ({ lists, className, showCardSettings }: Props) => {
         open={showUpdateDialog}
         close={() => setShowUpdateDialog(false)}
       />
-    </div>
+      <ScrollBar orientation="horizontal" />
+    </ScrollArea>
   )
 }
 
