@@ -18,6 +18,7 @@ import {
   Settings
 } from 'lucide-react'
 import type React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Button } from './ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
@@ -28,6 +29,7 @@ const Header = ({
 }) => {
   const { logout } = useAuth()
   const { refetch, isFetching } = useGetLists()
+  const { t, i18n } = useTranslation()
 
   const toggleDarkMode = () => {
     document.documentElement.classList.toggle('dark')
@@ -73,7 +75,7 @@ const Header = ({
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <span>Sync Tasks</span>
+            <span>{t('header.syncTasks')}</span>
           </TooltipContent>
         </Tooltip>
 
@@ -94,8 +96,12 @@ const Header = ({
               <DropdownMenuSubTrigger>Language</DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem>English</DropdownMenuItem>
-                  <DropdownMenuItem>Español</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => i18n.changeLanguage('en')}>
+                    English
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => i18n.changeLanguage('es')}>
+                    Español
+                  </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuPortal>
             </DropdownMenuSub>

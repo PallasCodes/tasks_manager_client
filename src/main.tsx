@@ -9,6 +9,7 @@ import AppRoutes from './AppRoutes.tsx'
 import { AuthProvider } from './context/AuthContext.tsx'
 import { TasksProvider } from './context/TasksContext.tsx'
 import './index.css'
+import './i18n'
 
 const queryClient = new QueryClient({
   defaultOptions: {
