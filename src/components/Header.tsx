@@ -1,6 +1,4 @@
-import { CheckCheck, CircleUserRound, Menu, Settings } from 'lucide-react'
-import { Button } from './ui/button'
-import type React from 'react'
+import { useGetLists } from '@/api/lists.api'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,6 +6,16 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/context/AuthContext'
+import {
+  CheckCheck,
+  CircleUserRound,
+  Menu,
+  RotateCw,
+  Settings
+} from 'lucide-react'
+import type React from 'react'
+import { Button } from './ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 const Header = ({
   hideSideBar
@@ -15,6 +23,7 @@ const Header = ({
   hideSideBar: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const { logout } = useAuth()
+  const { refetch, isFetching } = useGetLists()
 
   const toggleDarkMode = () => {
     document.documentElement.classList.toggle('dark')
@@ -43,6 +52,27 @@ const Header = ({
         </div>
       </div>
       <div className="flex items-center gap-2">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              className="rounded-full"
+              size="icon"
+              onClick={() => refetch()}
+              disabled={isFetching}
+            >
+              <RotateCw
+                className={`size-6 text-gray-600 dark:text-gray-200 ${
+                  isFetching ? 'animate-spin' : ''
+                }`}
+              />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>Sync Tasks</span>
+          </TooltipContent>
+        </Tooltip>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="rounded-full" size="icon">

@@ -57,13 +57,17 @@ export const useGetLists = () => {
   const {
     data: lists,
     isLoading,
-    error
+    error,
+    refetch,
+    isFetching
   } = useQuery('fetchLists', getListsRequest)
 
   return {
     lists,
     isLoading,
-    error
+    error,
+    refetch,
+    isFetching
   }
 }
 
