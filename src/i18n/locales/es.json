@@ -1,5 +1,8 @@
 {
   "header": {
-    "syncTasks": "Sincronizar tareas"
+    "syncTasks": "Sincronizar tareas",
+    "language": "Idioma",
+    "toggleDarkMode": "Cambiar modo oscuro",
+    "logout": "Cerrar sesión"
   }
 }

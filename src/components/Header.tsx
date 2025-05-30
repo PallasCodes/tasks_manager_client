@@ -39,6 +39,11 @@ const Header = ({
     )
   }
 
+  const switchLanguage = (lang: string) => {
+    i18n.changeLanguage(lang)
+    localStorage.setItem('lang', lang)
+  }
+
   return (
     <nav className="sticky top-0 left-0 right-0 px-4 py-3 flex items-center justify-between z-10 bg-white dark:bg-black">
       <div className="flex items-center justify-center gap-6">
@@ -90,16 +95,18 @@ const Header = ({
               className="cursor-pointer"
               onClick={toggleDarkMode}
             >
-              Toggle dark mode
+              {t('header.toggleDarkMode')}
             </DropdownMenuItem>
             <DropdownMenuSub>
-              <DropdownMenuSubTrigger>Language</DropdownMenuSubTrigger>
+              <DropdownMenuSubTrigger>
+                {t('header.language')}
+              </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem onClick={() => i18n.changeLanguage('en')}>
+                  <DropdownMenuItem onClick={() => switchLanguage('en')}>
                     English
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => i18n.changeLanguage('es')}>
+                  <DropdownMenuItem onClick={() => switchLanguage('es')}>
                     Español
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
@@ -115,7 +122,7 @@ const Header = ({
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem className="cursor-pointer" onClick={logout}>
-              Logout
+              {t('header.logout')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

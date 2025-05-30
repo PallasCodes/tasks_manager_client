@@ -1,5 +1,8 @@
 {
   "header": {
-    "syncTasks": "Sync Tasks"
+    "syncTasks": "Sync Tasks",
+    "language": "Language",
+    "toggleDarkMode": "Toggle dark mode",
+    "logout": "Logout"
   }
 }
