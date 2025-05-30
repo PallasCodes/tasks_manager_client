@@ -97,7 +97,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
         <Button
           variant="ghost"
           className="size-7 hover:text-red-400 transition-colors text-transparent dark:text-transparent dark:hover:text-red-400"
-          onClick={() => deleteTask(task.id as string)}
+          onClick={() => deleteTask(task.id)}
           disabled={isLoading || updateIsLoading}
         >
           <Trash className="size-4" />

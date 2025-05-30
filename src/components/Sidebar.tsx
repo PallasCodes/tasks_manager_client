@@ -81,7 +81,7 @@ const Sidebar = () => {
                 id={`list-${list.id}`}
                 className="size-4"
                 checked={!list.hidden}
-                onCheckedChange={() => toggleList(list.id as string)}
+                onCheckedChange={() => toggleList(list.id)}
               />
               <label
                 htmlFor={`list-${list.id}`}

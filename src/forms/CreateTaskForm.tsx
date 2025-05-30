@@ -87,7 +87,7 @@ const CreateTaskForm = ({ onSave, children }: Props) => {
                 </FormControl>
                 <SelectContent>
                   {lists.map((list) => (
-                    <SelectItem value={list.id as string} key={list.id}>
+                    <SelectItem value={list.id} key={list.id}>
                       {list.title}
                     </SelectItem>
                   ))}

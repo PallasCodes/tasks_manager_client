@@ -13,7 +13,7 @@ import { useDeleteList } from '@/api/lists.api'
 import { useTranslation } from 'react-i18next'
 
 interface Props {
-  list?: List
+  list: List
   open: boolean
   close: () => void
 }
@@ -25,7 +25,7 @@ const DeleteListDialog = ({ list, open, close }: Props) => {
 
   const handleDeleteList = () => {
     try {
-      deleteList(list?.id as string)
+      deleteList(list.id)
       close()
     } catch (error) {
       console.error('Error deleting list:', error)
