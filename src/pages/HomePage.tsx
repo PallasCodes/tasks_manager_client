@@ -6,7 +6,13 @@ const HomePage = () => {
   const { lists: _ } = useGetLists()
   const { lists } = useTasks()
 
-  return <ListsContainer lists={lists} />
+  return (
+    <ListsContainer
+      lists={lists}
+      className="flex flex-row gap-4 w-full"
+      showCardSettings={true}
+    />
+  )
 }
 
 export default HomePage

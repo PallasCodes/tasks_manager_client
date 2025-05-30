@@ -26,10 +26,17 @@ interface Props {
   list: List
   deleteList: (list: List) => void
   updateList: (list: List) => void
+  showSettings?: boolean
   className?: string
 }
 
-const ListCard = ({ list, deleteList, updateList, className }: Props) => {
+const ListCard = ({
+  list,
+  deleteList,
+  updateList,
+  className,
+  showSettings
+}: Props) => {
   const { t } = useTranslation()
 
   const [showNewTaskInput, setShowNewTaskInput] = useState(false)
@@ -69,30 +76,32 @@ const ListCard = ({ list, deleteList, updateList, className }: Props) => {
     >
       <CardHeader className="px-0! top-0 sticky bg-white dark:bg-card">
         <CardTitle className="px-4 text-lg">{list.title}</CardTitle>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="rounded-full absolute top-[-14px] right-1 size-8"
-            >
-              <EllipsisVertical className="size-5 text-gray-700" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => deleteList(list)}
-            >
-              {t('action.delete')}
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => updateList(list)}
-            >
-              {t('listCard.changeListName')}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {showSettings && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="rounded-full absolute top-[-14px] right-1 size-8"
+              >
+                <EllipsisVertical className="size-5 text-gray-700" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => deleteList(list)}
+              >
+                {t('action.delete')}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => updateList(list)}
+              >
+                {t('listCard.changeListName')}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
 
         <Button
           variant="ghost"

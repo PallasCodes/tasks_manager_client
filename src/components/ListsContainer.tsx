@@ -4,7 +4,13 @@ import CreateListDialog from './CreateListDialog'
 import DeleteListDialog from './DeleteListDialog'
 import ListCard from './ListCard'
 
-const ListsContainer = ({ lists }: { lists: List[] }) => {
+interface Props {
+  lists: List[]
+  className?: string
+  showCardSettings?: boolean
+}
+
+const ListsContainer = ({ lists, className, showCardSettings }: Props) => {
   const [selectedList, setSelectedList] = useState<List>({
     id: '-1',
     tasks: [],
@@ -24,7 +30,7 @@ const ListsContainer = ({ lists }: { lists: List[] }) => {
   }
 
   return (
-    <div className="flex flex-row gap-4 w-full">
+    <div className={`${className}`}>
       {lists
         ?.filter((list) => !list.hidden)
         .map((list) => (
@@ -34,6 +40,7 @@ const ListsContainer = ({ lists }: { lists: List[] }) => {
             deleteList={deleteList}
             updateList={updateList}
             className="grow"
+            showSettings={showCardSettings}
           />
         ))}
       <DeleteListDialog
