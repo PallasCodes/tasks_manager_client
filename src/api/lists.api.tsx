@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { toast } from 'sonner'
 
-import type { List } from '@/types/list.interface'
+import type { CreateList, List, UpdateList } from '@/types/list.interface'
 import { api } from '.'
 import { useTasks } from '@/context/TasksContext'
 
@@ -11,7 +11,7 @@ const MODULE_PREFIX = '/lists'
 export const useCreateList = () => {
   const queryClient = useQueryClient()
 
-  const createListRequest = async (payload: List): Promise<List> => {
+  const createListRequest = async (payload: CreateList): Promise<List> => {
     try {
       const response = await api.post(MODULE_PREFIX, payload)
       return response.data
@@ -126,10 +126,7 @@ export const useUpdateList = () => {
   const updateListRequest = async ({
     id,
     title
-  }: {
-    id: string
-    title: string
-  }): Promise<List> => {
+  }: UpdateList): Promise<List> => {
     try {
       const response = await api.patch(`${MODULE_PREFIX}/${id}`, { title })
       return response.data

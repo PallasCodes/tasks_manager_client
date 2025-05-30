@@ -7,7 +7,12 @@ import { useEffect, useState } from 'react'
 
 const PinnedTasksPage = () => {
   const { tasks } = useGetTasks()
-  const [list, setList] = useState<List>({ title: 'Pinned Tasks', tasks: [] })
+  const [list, setList] = useState<List>({
+    title: 'Pinned Tasks',
+    tasks: [],
+    hidden: false,
+    id: '-1'
+  })
   const [selectedList, setSelectedList] = useState<List | undefined>(undefined)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showUpdateDialog, setShowUpdateDialog] = useState(false)

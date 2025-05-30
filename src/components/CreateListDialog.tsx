@@ -37,9 +37,9 @@ const CreateListDialog = ({
   const handleSubmit = async () => {
     try {
       if (listToUpdate) {
-        await updateList({ id: listToUpdate.id as string, title: listName })
+        await updateList({ id: listToUpdate.id, title: listName })
       } else {
-        await createList({ title: listName } as List)
+        await createList({ title: listName })
       }
       setListName('')
       close()
