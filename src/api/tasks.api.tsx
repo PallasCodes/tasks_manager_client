@@ -23,13 +23,15 @@ export const useGetTasks = () => {
   const {
     data: tasks,
     isLoading,
-    error
+    error,
+    isFetching
   } = useQuery('fetchTasks', getTasksRequest)
 
   return {
     tasks,
     isLoading,
-    error
+    error,
+    isFetching
   }
 }
 
