@@ -143,7 +143,7 @@ const ListCard = ({
           ))}
         <Accordion collapsible type="single">
           <AccordionItem value="tasks-done">
-            <AccordionTrigger className="px-4">
+            <AccordionTrigger className="px-4 dark:text-gray-300 text-gray-700">
               {t('listCard.done')} (
               {list.tasks?.filter((task) => task.done).length})
             </AccordionTrigger>

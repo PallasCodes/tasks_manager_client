@@ -62,7 +62,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
       {!editingEnabled && (
         <div
           className={`flex ${
-            task.description ? 'items-start' : 'items-center'
+            task.description || task.done ? 'items-start' : 'items-center'
           }`}
         >
           <Button
@@ -73,7 +73,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
             {task.done ? <CircleCheck /> : <Circle />}
           </Button>
           <div
-            className="text-sm text-gray-800 dark:text-gray-400"
+            className="text-sm text-gray-600 dark:text-gray-400"
             onDoubleClick={enableTaskEditing}
           >
             <div
@@ -84,12 +84,12 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
               {task.title}
             </div>
             {task.done && (
-              <div className="text-xs font-medium">
+              <div className="text-xs">
                 {t('taskItem.done')}:&nbsp; {dateToLocale(task.updatedAt)}
               </div>
             )}
             {!task.done && task.description && (
-              <div className="text-xs font-medium">
+              <div className="text-xs ">
                 {task.description.substring(0, 100)}
                 {task.description.length > 100 ? '...' : ''}
               </div>
@@ -137,7 +137,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
           </Button>
           <Button
             variant="ghost"
-            className={`size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-yellow-500! ${
+            className={`size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-[#aaa]! ${
               task.pinned ? 'text-[#aaa]' : ''
             }`}
             onClick={() => handleUpdateTask({ ...task, pinned: !task.pinned })}
