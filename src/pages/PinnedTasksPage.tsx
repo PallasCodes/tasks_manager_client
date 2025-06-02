@@ -4,7 +4,7 @@ import type { List } from '@/types/list.interface'
 import { useEffect, useState } from 'react'
 
 const PinnedTasksPage = () => {
-  const { tasks, isFetching } = useGetTasks()
+  const { tasks, isLoading } = useGetTasks()
   const [list, setList] = useState<List>({
     title: 'Pinned Tasks',
     tasks: [],
@@ -22,7 +22,7 @@ const PinnedTasksPage = () => {
     <ListsContainer
       lists={[list]}
       className="w-full justify-center flex"
-      isLoading={isFetching}
+      isLoading={isLoading}
     />
   )
 }

@@ -3,7 +3,7 @@ import { useTasks } from '@/context/TasksContext'
 import ListsContainer from '../components/ListsContainer'
 
 const HomePage = () => {
-  const { lists: _, isFetching } = useGetLists()
+  const { lists: _, isLoading } = useGetLists()
   const { lists } = useTasks()
 
   return (
@@ -11,7 +11,7 @@ const HomePage = () => {
       lists={lists}
       className="flex flex-row gap-4 w-full"
       showCardSettings={true}
-      isLoading={isFetching}
+      isLoading={isLoading}
     />
   )
 }
