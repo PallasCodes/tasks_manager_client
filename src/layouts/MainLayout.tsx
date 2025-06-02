@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
@@ -28,13 +28,19 @@ const pageTransition = {
 const MainLayout = ({ children }: React.PropsWithChildren) => {
   const [hiddenSidebar, setHiddenSidebar] = useState(false)
 
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setHiddenSidebar(true)
+    }
+  }, [window.innerWidth])
+
   return (
     <div className="flex flex-col h-screen">
       <Header hideSideBar={setHiddenSidebar} />
 
       <div className="flex flex-1 relative">
         <aside
-          className={`absolute top-0 left-0 h-full w-72 z-20 bg-white dark:bg-black transform transition-transform duration-300 ease-in-out border-r
+          className={`absolute top-0 left-0 h-full md:w-72 z-20 bg-white dark:bg-black transform transition-transform duration-300 ease-in-out border-r md:right-auto right-0 w-full
             ${hiddenSidebar ? '-translate-x-full' : 'translate-x-0'}
           `}
         >
@@ -42,7 +48,7 @@ const MainLayout = ({ children }: React.PropsWithChildren) => {
         </aside>
 
         <main
-          className={`transition-all duration-300 ease-in-out overflow-x-hidden
+          className={`transition-all duration-300 ease-in-out overflow-x-hidden w-full
               ${hiddenSidebar ? 'ml-0' : 'ml-72'}
             `}
         >

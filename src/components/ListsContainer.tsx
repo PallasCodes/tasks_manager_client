@@ -31,14 +31,14 @@ const ListsContainer = ({ lists, showCardSettings }: Props) => {
   }
 
   return (
-    <ScrollArea className="w-full h-full">
-      <div className="flex flex-row gap-4 min-w-max px-4 py-2">
+    <ScrollArea className="w-full h-full p-4">
+      <div className="flex sm:flex-row gap-4 min-w-max flex-col">
         {lists
           ?.filter((list) => !list.hidden)
           .map((list) => (
             <div
               key={list.id}
-              className="w-full min-w-lg max-w-2xl flex-shrink-0"
+              className="w-full lg:min-w-lg lg:max-w-2xl flex-shrink-0 "
             >
               <ListCard
                 key={list.id}
