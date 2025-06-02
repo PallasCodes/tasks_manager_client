@@ -49,7 +49,8 @@
     "title": "Crear tarea",
     "titleInput": "Título",
     "listInput": "Lista",
-    "pinned": "Destacada"
+    "pinned": "Destacada",
+    "descriptionInput": "Descripción"
   },
   "deleteListDialog": {
     "title": "Eliminar lista",

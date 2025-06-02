@@ -78,6 +78,12 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
                 {t('taskItem.done')}:&nbsp; {dateToLocale(task.updatedAt)}
               </div>
             )}
+            {!task.done && task.description && (
+              <div className="text-xs font-medium">
+                {task.description.substring(0, 100)}
+                {task.description.length > 100 ? '...' : ''}
+              </div>
+            )}
           </div>
         </div>
       )}

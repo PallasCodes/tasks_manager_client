@@ -5,11 +5,13 @@ export interface Task extends BaseEntity {
   title: string
   done: boolean
   pinned: boolean
+  description?: string
 }
 
 export interface CreateTask {
   title: string
   listId: string
+  description?: string
 }
 
 export interface UpdateTask {
@@ -17,4 +19,5 @@ export interface UpdateTask {
   title: string
   done?: boolean
   pinned?: boolean
+  description?: string
 }

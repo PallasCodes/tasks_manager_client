@@ -25,7 +25,8 @@ import { z } from 'zod'
 const formSchema = z.object({
   title: z.string().min(1).max(255),
   listId: z.string().min(1),
-  pinned: z.boolean()
+  pinned: z.boolean(),
+  description: z.string().min(1).max(500).optional()
 })
 
 export type CreateTaskFormData = z.infer<typeof formSchema>
@@ -46,7 +47,8 @@ const CreateTaskForm = ({ onSave, children }: Props) => {
     defaultValues: {
       title: '',
       listId: '',
-      pinned: false
+      pinned: false,
+      description: undefined
     },
     mode: 'onBlur',
     reValidateMode: 'onBlur'
@@ -65,6 +67,22 @@ const CreateTaskForm = ({ onSave, children }: Props) => {
                   {...field}
                   placeholder={t('createTaskDialog.titleInput')}
                   autoFocus
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder={t('createTaskDialog.descriptionInput')}
                 />
               </FormControl>
               <FormMessage />

@@ -49,7 +49,8 @@
     "title": "Create a Task",
     "titleInput": "Title",
     "listInput": "List",
-    "pinned": "Pinned"
+    "pinned": "Pinned",
+    "descriptionInput": "Description"
   },
   "deleteListDialog": {
     "title": "Delete list",
