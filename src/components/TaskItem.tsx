@@ -5,6 +5,8 @@ import { useUpdateTask } from '@/api/tasks.api'
 import type { Task } from '@/types/task.interface'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
+import { useTranslation } from 'react-i18next'
+import { dateToLocale } from '@/utils/formatters.util'
 
 interface Props {
   task: Task
@@ -13,12 +15,15 @@ interface Props {
 }
 
 const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
+  const { t } = useTranslation()
+
   const [editingEnabled, setEditingEnabled] = useState(false)
   const [newTitle, setNewTitle] = useState('')
 
   const { updateTask, isLoading: updateIsLoading } = useUpdateTask()
 
   const enableTaskEditing = () => {
+    if (task.done) return
     setEditingEnabled(true)
     setNewTitle(task.title)
   }
@@ -63,14 +68,17 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
           >
             {task.done ? <CircleCheck /> : <Circle />}
           </Button>
-          <span
-            className={`text-sm text-gray-800 dark:text-gray-400 ${
-              task.done ? 'line-through' : ''
-            }`}
+          <div
+            className="text-sm text-gray-800 dark:text-gray-400"
             onDoubleClick={enableTaskEditing}
           >
-            {task.title}
-          </span>
+            <div className={task.done ? 'line-through' : ''}>{task.title}</div>
+            {task.done && (
+              <div className="text-xs font-medium">
+                {t('taskItem.done')}:&nbsp; {dateToLocale(task.updatedAt)}
+              </div>
+            )}
+          </div>
         </div>
       )}
       {editingEnabled && (
@@ -93,34 +101,36 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
         </div>
       )}
 
-      <div className="flex items-center">
-        <Button
-          variant="ghost"
-          className="size-7 hover:text-red-400 transition-colors text-transparent dark:text-transparent dark:hover:text-red-400"
-          onClick={() => deleteTask(task.id)}
-          disabled={isLoading || updateIsLoading}
-        >
-          <Trash className="size-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          className="size-7 hover:text-green-400 transition-colors text-transparent dark:text-transparent dark:hover:text-green-400"
-          onClick={enableTaskEditing}
-          disabled={isLoading || updateIsLoading}
-        >
-          <Pen className="size-4" />
-        </Button>
-        <Button
-          variant="ghost"
-          className={`size-7 hover:text-yellow-400 transition-colors text-transparent dark:text-transparent dark:hover:text-yellow-400 ${
-            task.pinned ? 'dark:text-yellow-200 text-yellow-400' : ''
-          }`}
-          onClick={() => handleUpdateTask({ ...task, pinned: !task.pinned })}
-          disabled={isLoading || updateIsLoading}
-        >
-          <Star className="size-4" />
-        </Button>
-      </div>
+      {!task.done && (
+        <div className="flex items-center">
+          <Button
+            variant="ghost"
+            className="size-7 hover:text-red-400 transition-colors text-transparent dark:text-transparent dark:hover:text-red-400"
+            onClick={() => deleteTask(task.id)}
+            disabled={isLoading || updateIsLoading}
+          >
+            <Trash className="size-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            className="size-7 hover:text-green-400 transition-colors text-transparent dark:text-transparent dark:hover:text-green-400"
+            onClick={enableTaskEditing}
+            disabled={isLoading || updateIsLoading}
+          >
+            <Pen className="size-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            className={`size-7 hover:text-yellow-400 transition-colors text-transparent dark:text-transparent dark:hover:text-yellow-400 ${
+              task.pinned ? 'dark:text-yellow-200 text-yellow-400' : ''
+            }`}
+            onClick={() => handleUpdateTask({ ...task, pinned: !task.pinned })}
+            disabled={isLoading || updateIsLoading}
+          >
+            <Star className="size-4" />
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

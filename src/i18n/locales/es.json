@@ -54,5 +54,8 @@
   "deleteListDialog": {
     "title": "Eliminar lista",
     "descriptionMsg": "También se borrarán todas las tareas dentro de esta lista"
+  },
+  "taskItem": {
+    "done": "Completado"
   }
 }

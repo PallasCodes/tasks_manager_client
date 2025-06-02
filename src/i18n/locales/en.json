@@ -54,5 +54,8 @@
   "deleteListDialog": {
     "title": "Delete list",
     "descriptionMsg": "All tasks within this list will be deleted as well"
+  },
+  "taskItem": {
+    "done": "Done"
   }
 }
