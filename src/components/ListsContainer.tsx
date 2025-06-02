@@ -11,7 +11,7 @@ interface Props {
   showCardSettings?: boolean
 }
 
-const ListsContainer = ({ lists, className, showCardSettings }: Props) => {
+const ListsContainer = ({ lists, showCardSettings }: Props) => {
   const [selectedList, setSelectedList] = useState<List>({
     id: '-1',
     tasks: [],

@@ -3,7 +3,6 @@ import { useState } from 'react'
 
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 const pageVariants = {
   initial: {
@@ -30,10 +29,10 @@ const MainLayout = ({ children }: React.PropsWithChildren) => {
   const [hiddenSidebar, setHiddenSidebar] = useState(false)
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden w-full">
+    <div className="flex flex-col h-screen">
       <Header hideSideBar={setHiddenSidebar} />
 
-      <div className="flex flex-1 relative overflow-hidden">
+      <div className="flex flex-1 relative">
         <aside
           className={`absolute top-0 left-0 h-full w-72 z-20 bg-white dark:bg-black transform transition-transform duration-300 ease-in-out border-r
             ${hiddenSidebar ? '-translate-x-full' : 'translate-x-0'}
@@ -43,7 +42,7 @@ const MainLayout = ({ children }: React.PropsWithChildren) => {
         </aside>
 
         <main
-          className={`transition-all duration-300 ease-in-out
+          className={`transition-all duration-300 ease-in-out overflow-x-hidden
               ${hiddenSidebar ? 'ml-0' : 'ml-72'}
             `}
         >
@@ -53,7 +52,7 @@ const MainLayout = ({ children }: React.PropsWithChildren) => {
             exit="out"
             variants={pageVariants}
             transition={pageTransition}
-            className="p-4 h-full w-full"
+            className="h-full w-full"
           >
             {children}
           </motion.div>
