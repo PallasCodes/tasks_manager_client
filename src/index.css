@@ -154,3 +154,7 @@
     background-color: #718096;
   }
 }
+
+.task-item:hover .task-action {
+  @apply dark:text-gray-300 text-gray-400;
+}

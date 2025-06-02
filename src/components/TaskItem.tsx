@@ -58,9 +58,13 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
   }
 
   return (
-    <div className="w-full flex justify-between items-center gap-1.5 hover:bg-blue-50 transition-colors px-2 py-1 dark:hover:bg-gray-900">
+    <div className="w-full flex justify-between items-start gap-1.5 hover:bg-blue-50 transition-colors px-2 py-1 dark:hover:bg-gray-900 task-item">
       {!editingEnabled && (
-        <div className="flex items-center">
+        <div
+          className={`flex ${
+            task.description ? 'items-start' : 'items-center'
+          }`}
+        >
           <Button
             variant="ghost"
             className="rounded-full size-7"
@@ -72,7 +76,13 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
             className="text-sm text-gray-800 dark:text-gray-400"
             onDoubleClick={enableTaskEditing}
           >
-            <div className={task.done ? 'line-through' : ''}>{task.title}</div>
+            <div
+              className={`dark:text-gray-300 ${
+                task.done ? 'line-through' : ''
+              }`}
+            >
+              {task.title}
+            </div>
             {task.done && (
               <div className="text-xs font-medium">
                 {t('taskItem.done')}:&nbsp; {dateToLocale(task.updatedAt)}
@@ -111,7 +121,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
         <div className="flex items-center">
           <Button
             variant="ghost"
-            className="size-7 hover:text-red-400 transition-colors text-transparent dark:text-transparent dark:hover:text-red-400"
+            className="size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-red-500!"
             onClick={() => deleteTask(task.id)}
             disabled={isLoading || updateIsLoading}
           >
@@ -119,7 +129,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
           </Button>
           <Button
             variant="ghost"
-            className="size-7 hover:text-green-400 transition-colors text-transparent dark:text-transparent dark:hover:text-green-400"
+            className="size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-green-500!"
             onClick={enableTaskEditing}
             disabled={isLoading || updateIsLoading}
           >
@@ -127,13 +137,16 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
           </Button>
           <Button
             variant="ghost"
-            className={`size-7 hover:text-yellow-400 transition-colors text-transparent dark:text-transparent dark:hover:text-yellow-400 ${
-              task.pinned ? 'dark:text-yellow-200 text-yellow-400' : ''
+            className={`size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-yellow-500! ${
+              task.pinned ? 'text-[#aaa]' : ''
             }`}
             onClick={() => handleUpdateTask({ ...task, pinned: !task.pinned })}
             disabled={isLoading || updateIsLoading}
           >
-            <Star className="size-4" />
+            <Star
+              className="size-4"
+              fill={`${task.pinned ? '#aaa' : 'transparent'}`}
+            />
           </Button>
         </div>
       )}
