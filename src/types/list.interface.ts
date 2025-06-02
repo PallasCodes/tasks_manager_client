@@ -5,6 +5,9 @@ export interface List {
   title: string
   tasks: Task[]
   hidden?: boolean
+  order: number
+  dragged?: boolean
+  draggedOver?: boolean
 }
 
 export interface CreateList {
@@ -13,5 +16,6 @@ export interface CreateList {
 
 export interface UpdateList {
   id: string
-  title: string
+  title?: string
+  order?: number
 }

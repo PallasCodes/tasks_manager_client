@@ -5,6 +5,8 @@ import DeleteListDialog from './DeleteListDialog'
 import ListCard from './ListCard'
 import { ScrollArea, ScrollBar } from './ui/scroll-area'
 import { Skeleton } from './ui/skeleton'
+import { useTasks } from '@/context/TasksContext'
+import { useUpdateList } from '@/api/lists.api'
 
 interface Props {
   lists: List[]
@@ -14,13 +16,23 @@ interface Props {
 }
 
 const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
+  const { setLists } = useTasks()
+  const { updateList: updateListApi } = useUpdateList()
+
   const [selectedList, setSelectedList] = useState<List>({
     id: '-1',
     tasks: [],
-    title: ''
+    title: '',
+    order: 0
   })
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showUpdateDialog, setShowUpdateDialog] = useState(false)
+  const [draggedList, setDraggedList] = useState<List>({
+    id: '-1',
+    order: 0,
+    tasks: [],
+    title: ''
+  })
 
   const deleteList = (list: List) => {
     setSelectedList(list)
@@ -30,6 +42,42 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
   const updateList = (list: List) => {
     setSelectedList(list)
     setShowUpdateDialog(true)
+  }
+
+  const onDragStart = (list: List) => {
+    setDraggedList(list)
+    setLists((prev) =>
+      prev.map((l) => (l.id === list.id ? { ...l, dragged: true } : l))
+    )
+  }
+
+  const onDragEnd = (list: List) => {
+    setLists((prev) =>
+      prev.map((l) => (l.id === list.id ? { ...l, dragged: false } : l))
+    )
+  }
+
+  const onDragOver = (e: React.DragEvent, list: List) => {
+    e.preventDefault()
+    setLists((prev) =>
+      prev.map((l) => (l.id === list.id ? { ...l, draggedOver: true } : l))
+    )
+  }
+
+  const onDragLeave = (list: List) => {
+    setLists((prev) =>
+      prev.map((l) => (l.id === list.id ? { ...l, draggedOver: false } : l))
+    )
+  }
+
+  const onDrop = async (e: React.DragEvent, list: List) => {
+    try {
+      e.preventDefault()
+      console.log(list)
+      await updateListApi({ id: draggedList.id, order: list.order })
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
@@ -47,7 +95,15 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
             .map((list) => (
               <div
                 key={list.id}
-                className="w-full lg:min-w-lg lg:max-w-2xl md:flex-shrink-0"
+                className={`w-full lg:min-w-lg lg:max-w-xl md:flex-shrink-0 ${
+                  list.draggedOver ? 'border-r-4 border-r-blue-500' : ''
+                }`}
+                draggable="true"
+                onDragStart={() => onDragStart(list)}
+                onDragEnd={() => onDragEnd(list)}
+                onDragOver={(e) => onDragOver(e, list)}
+                onDragLeave={() => onDragLeave(list)}
+                onDrop={(e) => onDrop(e, list)}
               >
                 <ListCard
                   key={list.id}

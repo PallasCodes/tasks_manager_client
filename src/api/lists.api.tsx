@@ -125,10 +125,10 @@ export const useUpdateList = () => {
 
   const updateListRequest = async ({
     id,
-    title
+    title, order
   }: UpdateList): Promise<List> => {
     try {
-      const response = await api.patch(`${MODULE_PREFIX}/${id}`, { title })
+      const response = await api.patch(`${MODULE_PREFIX}/${id}`, { title, order })
       return response.data
     } catch (error: any) {
       throw new Error(error.response?.data?.message || 'Could not update list')

@@ -7,6 +7,7 @@ export interface Task extends BaseEntity {
   pinned: boolean
   description?: string
   estimatedTime?: number
+  dragged?: boolean
 }
 
 export interface CreateTask {

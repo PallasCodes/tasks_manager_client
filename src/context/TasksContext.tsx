@@ -3,7 +3,7 @@ import React, { createContext } from 'react'
 
 interface TasksContextType {
   lists: List[]
-  setLists: (lists: List[]) => void
+  setLists: (data: React.SetStateAction<List[]>) => void
   toggleList: (listId: string) => void
 }
 
