@@ -26,7 +26,8 @@ const formSchema = z.object({
   title: z.string().min(1).max(255),
   listId: z.string().min(1),
   pinned: z.boolean(),
-  description: z.string().min(1).max(500).optional()
+  description: z.string().min(1).max(500).optional(),
+  estimatedTime: z.number().min(0).optional()
 })
 
 export type CreateTaskFormData = z.infer<typeof formSchema>
@@ -48,7 +49,8 @@ const CreateTaskForm = ({ onSave, children }: Props) => {
       title: '',
       listId: '',
       pinned: false,
-      description: undefined
+      description: undefined,
+      estimatedTime: undefined
     },
     mode: 'onBlur',
     reValidateMode: 'onBlur'
@@ -83,6 +85,27 @@ const CreateTaskForm = ({ onSave, children }: Props) => {
                 <Input
                   {...field}
                   placeholder={t('createTaskDialog.descriptionInput')}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="estimatedTime"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder={t('createTaskDialog.estimatedTime')}
+                  type="number"
+                  onChange={(e) => {
+                    const value = e.target.value
+                    field.onChange(value === '' ? undefined : Number(value))
+                  }}
                 />
               </FormControl>
               <FormMessage />

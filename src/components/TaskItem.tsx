@@ -119,35 +119,42 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
 
       {!task.done && (
         <div className="flex items-center">
-          <Button
-            variant="ghost"
-            className="size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-red-500!"
-            onClick={() => deleteTask(task.id)}
-            disabled={isLoading || updateIsLoading}
-          >
-            <Trash className="size-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            className="size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-green-500!"
-            onClick={enableTaskEditing}
-            disabled={isLoading || updateIsLoading}
-          >
-            <Pen className="size-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            className={`size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-[#aaa]! ${
-              task.pinned ? 'text-[#aaa]' : ''
-            }`}
-            onClick={() => handleUpdateTask({ ...task, pinned: !task.pinned })}
-            disabled={isLoading || updateIsLoading}
-          >
-            <Star
-              className="size-4"
-              fill={`${task.pinned ? '#aaa' : 'transparent'}`}
-            />
-          </Button>
+          <div className="flex items-center">
+            <Button
+              variant="ghost"
+              className="size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-red-500!"
+              onClick={() => deleteTask(task.id)}
+              disabled={isLoading || updateIsLoading}
+            >
+              <Trash className="size-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              className="size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-green-500!"
+              onClick={enableTaskEditing}
+              disabled={isLoading || updateIsLoading}
+            >
+              <Pen className="size-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              className={`size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-[#aaa]! ${
+                task.pinned ? 'text-[#aaa]' : ''
+              }`}
+              onClick={() =>
+                handleUpdateTask({ ...task, pinned: !task.pinned })
+              }
+              disabled={isLoading || updateIsLoading}
+            >
+              <Star
+                className="size-4"
+                fill={`${task.pinned ? '#aaa' : 'transparent'}`}
+              />
+            </Button>
+          </div>
+          <div className="w-10 text-sm text-end dark:text-gray-300">
+            {task.estimatedTime}
+          </div>
         </div>
       )}
     </div>

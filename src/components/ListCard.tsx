@@ -103,14 +103,24 @@ const ListCard = ({
           </DropdownMenu>
         )}
 
-        <Button
-          variant="ghost"
-          className="text-blue-400 justify-start px-4! hover:bg-blue-50 transition-colors hover:text-text-blue-600"
-          onClick={() => setShowNewTaskInput(true)}
-        >
-          <CheckLine />
-          {t('listCard.addTaskBtn')}
-        </Button>
+        <div className="flex items-center justify-between relative">
+          <Button
+            variant="ghost"
+            className="text-blue-400 justify-start px-4! transition-colors hover:text-text-blue-600 grow"
+            onClick={() => setShowNewTaskInput(true)}
+          >
+            <CheckLine />
+            {t('listCard.addTaskBtn')}
+          </Button>
+          <div className="text-end text-sm dark:text-gray-300 pr-2 mt-1 font-medium absolute right-0">
+            Total: &nbsp;
+            {list.tasks.reduce(
+              (acc, current) => current.estimatedTime ?? 0 + acc,
+              0
+            )}
+            &nbsp;min
+          </div>
+        </div>
 
         {showNewTaskInput && (
           <div className="w-full flex items-center px-2 py-1">

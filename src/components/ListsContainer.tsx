@@ -34,7 +34,7 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
 
   return (
     <ScrollArea className="w-full h-full p-4">
-      <div className="flex sm:flex-row gap-4 min-w-max flex-col">
+      <div className="flex sm:flex-row gap-4 md:min-w-max flex-col">
         {isLoading && (
           <>
             <Skeleton className="w-full lg:min-w-lg lg:max-w-2xl flex-shrink-0 h-[350px]" />
@@ -47,7 +47,7 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
             .map((list) => (
               <div
                 key={list.id}
-                className="w-full lg:min-w-lg lg:max-w-2xl flex-shrink-0"
+                className="w-full lg:min-w-lg lg:max-w-2xl md:flex-shrink-0"
               >
                 <ListCard
                   key={list.id}

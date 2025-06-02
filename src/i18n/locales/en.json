@@ -50,7 +50,8 @@
     "titleInput": "Title",
     "listInput": "List",
     "pinned": "Pinned",
-    "descriptionInput": "Description"
+    "descriptionInput": "Description",
+    "estimatedTime": "Estimated time"
   },
   "deleteListDialog": {
     "title": "Delete list",
