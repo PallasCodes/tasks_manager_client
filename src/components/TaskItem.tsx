@@ -57,8 +57,20 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
     }
   }
 
+  const onDragStart = (list: Task) => {
+    // setDraggedTask(list)
+    // setLists((prev) =>
+    //   prev.map((l) => (l.id === list.id ? { ...l, dragged: true } : l))
+    // )
+    console.log({ list })
+  }
+
   return (
-    <div className="w-full flex justify-between items-start gap-1.5 hover:bg-blue-50 transition-colors px-2 py-1 dark:hover:bg-gray-900 task-item">
+    <div
+      className="w-full flex justify-between items-start gap-1.5 hover:bg-blue-50 transition-colors px-2 py-1 dark:hover:bg-gray-900 task-item"
+      draggable="true"
+      onDragStart={() => onDragStart(task)}
+    >
       {!editingEnabled && (
         <div
           className={`flex ${

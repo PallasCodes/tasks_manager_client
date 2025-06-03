@@ -73,7 +73,6 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
   const onDrop = async (e: React.DragEvent, list: List) => {
     try {
       e.preventDefault()
-      console.log(list)
       await updateListApi({ id: draggedList.id, order: list.order })
     } catch (err) {
       console.error(err)
@@ -95,15 +94,9 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
             .map((list) => (
               <div
                 key={list.id}
-                className={`w-full lg:min-w-lg lg:max-w-xl md:flex-shrink-0 ${
+                className={`w-full lg:min-w-sm lg:max-w-lg md:flex-shrink-0 ${
                   list.draggedOver ? 'border-r-4 border-r-blue-500' : ''
                 }`}
-                draggable="true"
-                onDragStart={() => onDragStart(list)}
-                onDragEnd={() => onDragEnd(list)}
-                onDragOver={(e) => onDragOver(e, list)}
-                onDragLeave={() => onDragLeave(list)}
-                onDrop={(e) => onDrop(e, list)}
               >
                 <ListCard
                   key={list.id}
@@ -111,6 +104,11 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
                   deleteList={deleteList}
                   updateList={updateList}
                   showSettings={showCardSettings}
+                  onDragEnd={onDragEnd}
+                  onDragLeave={onDragLeave}
+                  onDragOver={onDragOver}
+                  onDragStart={onDragStart}
+                  onDrop={onDrop}
                 />
               </div>
             ))}

@@ -28,6 +28,11 @@ interface Props {
   updateList: (list: List) => void
   showSettings?: boolean
   className?: string
+  onDragStart: (list: List) => void
+  onDragEnd: (list: List) => void
+  onDragOver: (e: any, list: List) => void
+  onDragLeave: (list: List) => void
+  onDrop: (e: any, list: List) => void
 }
 
 const ListCard = ({
@@ -35,7 +40,12 @@ const ListCard = ({
   deleteList,
   updateList,
   className,
-  showSettings
+  showSettings,
+  onDragStart,
+  onDragEnd,
+  onDragOver,
+  onDragLeave,
+  onDrop
 }: Props) => {
   const { t } = useTranslation()
 
@@ -75,9 +85,17 @@ const ListCard = ({
       className={`gap-0! py-5! overflow-y-auto list-card h-min relative list-card ${className} ${
         list.dragged ? 'opacity-50' : ''
       }`}
+      onDragStart={() => onDragStart(list)}
+      onDragEnd={() => onDragEnd(list)}
+      onDragOver={(e) => onDragOver(e, list)}
+      onDragLeave={() => onDragLeave(list)}
+      onDrop={(e) => onDrop(e, list)}
     >
       <div className="span absolute w-10 h-1 bg-gray-500 rounded cursor-pointer top-1 self-center list-card-drag hidden" />
-      <CardHeader className="px-0! top-0 sticky bg-white dark:bg-card">
+      <CardHeader
+        className="px-0! top-0 sticky bg-white dark:bg-card cursor-pointer"
+        draggable="true"
+      >
         <CardTitle className="px-4 text-lg">{list.title}</CardTitle>
         {showSettings && (
           <DropdownMenu>
