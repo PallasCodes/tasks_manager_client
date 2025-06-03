@@ -52,7 +52,7 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
     )
   }
 
-  const onDragEnd = (e: React.DragEvent, list: List) => {
+  const onDragEnd = (_: React.DragEvent, list: List) => {
     setLists((prev) =>
       prev.map((l) => (l.id === list.id ? { ...l, dragged: false } : l))
     )
@@ -67,7 +67,7 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
     }
   }
 
-  const onDragLeave = (e: React.DragEvent, list: List) => {
+  const onDragLeave = (_: React.DragEvent, list: List) => {
     setLists((prev) =>
       prev.map((l) => (l.id === list.id ? { ...l, draggedOver: false } : l))
     )
