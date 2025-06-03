@@ -7,6 +7,7 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { useTranslation } from 'react-i18next'
 import { dateToLocale } from '@/utils/formatters.util'
+import { useTasks } from '@/context/TasksContext'
 
 interface Props {
   task: Task
@@ -16,6 +17,9 @@ interface Props {
 
 const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
   const { t } = useTranslation()
+
+  const { draggedTask, setDraggedTask, draggedOnTask, setDraggedOnTask } =
+    useTasks()
 
   const [editingEnabled, setEditingEnabled] = useState(false)
   const [newTitle, setNewTitle] = useState('')
@@ -57,19 +61,42 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
     }
   }
 
-  const onDragStart = (list: Task) => {
-    // setDraggedTask(list)
-    // setLists((prev) =>
-    //   prev.map((l) => (l.id === list.id ? { ...l, dragged: true } : l))
-    // )
-    console.log({ list })
+  const onDragStart = (e: React.DragEvent, task: Task) => {
+    e.stopPropagation()
+    setDraggedTask(task)
+  }
+
+  const onDragEnd = (e: React.DragEvent, task: Task) => {
+    e.stopPropagation()
+    setDraggedTask(undefined)
+  }
+
+  const onDragOver = (e: React.DragEvent, task: Task) => {
+    e.stopPropagation()
+    setDraggedOnTask(task)
+  }
+
+  const onDragLeave = (e: React.DragEvent, task: Task) => {
+    e.stopPropagation()
+    setDraggedOnTask(undefined)
+  }
+
+  const onDrop = (e: React.DragEvent, task: Task) => {
+    e.stopPropagation()
+    console.log({ task })
   }
 
   return (
     <div
-      className="w-full flex justify-between items-start gap-1.5 hover:bg-blue-50 transition-colors px-2 py-1 dark:hover:bg-gray-900 task-item"
+      className={`w-full flex justify-between items-start gap-1.5 hover:bg-blue-50 transition-colors px-2 py-1 dark:hover:bg-gray-900 task-item 
+        ${draggedTask?.id === task.id ? 'opacity-50' : ''} 
+        ${draggedOnTask?.id === task.id ? 'border-b-2 border-b-blue-500' : ''}`}
       draggable="true"
-      onDragStart={() => onDragStart(task)}
+      onDragStart={(e) => onDragStart(e, task)}
+      onDragEnd={(e) => onDragEnd(e, task)}
+      onDragOver={(e) => onDragOver(e, task)}
+      onDragLeave={(e) => onDragLeave(e, task)}
+      onDrop={(e) => onDrop(e, task)}
     >
       {!editingEnabled && (
         <div

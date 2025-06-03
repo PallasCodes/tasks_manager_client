@@ -44,14 +44,15 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
     setShowUpdateDialog(true)
   }
 
-  const onDragStart = (list: List) => {
+  const onDragStart = (e: React.DragEvent, list: List) => {
+    console.log({ e })
     setDraggedList(list)
     setLists((prev) =>
       prev.map((l) => (l.id === list.id ? { ...l, dragged: true } : l))
     )
   }
 
-  const onDragEnd = (list: List) => {
+  const onDragEnd = (e: React.DragEvent, list: List) => {
     setLists((prev) =>
       prev.map((l) => (l.id === list.id ? { ...l, dragged: false } : l))
     )
@@ -59,12 +60,14 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
 
   const onDragOver = (e: React.DragEvent, list: List) => {
     e.preventDefault()
-    setLists((prev) =>
-      prev.map((l) => (l.id === list.id ? { ...l, draggedOver: true } : l))
-    )
+    if (draggedList.id !== '-1') {
+      setLists((prev) =>
+        prev.map((l) => (l.id === list.id ? { ...l, draggedOver: true } : l))
+      )
+    }
   }
 
-  const onDragLeave = (list: List) => {
+  const onDragLeave = (e: React.DragEvent, list: List) => {
     setLists((prev) =>
       prev.map((l) => (l.id === list.id ? { ...l, draggedOver: false } : l))
     )
@@ -73,7 +76,10 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
   const onDrop = async (e: React.DragEvent, list: List) => {
     try {
       e.preventDefault()
-      await updateListApi({ id: draggedList.id, order: list.order })
+      if (draggedList.id !== '-1') {
+        await updateListApi({ id: draggedList.id, order: list.order })
+        setDraggedList({ id: '-1', title: '', tasks: [], order: 0 })
+      }
     } catch (err) {
       console.error(err)
     }
@@ -104,10 +110,10 @@ const ListsContainer = ({ lists, showCardSettings, isLoading }: Props) => {
                   deleteList={deleteList}
                   updateList={updateList}
                   showSettings={showCardSettings}
-                  onDragEnd={onDragEnd}
-                  onDragLeave={onDragLeave}
-                  onDragOver={onDragOver}
                   onDragStart={onDragStart}
+                  onDragEnd={onDragEnd}
+                  onDragOver={onDragOver}
+                  onDragLeave={onDragLeave}
                   onDrop={onDrop}
                 />
               </div>

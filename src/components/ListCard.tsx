@@ -28,10 +28,10 @@ interface Props {
   updateList: (list: List) => void
   showSettings?: boolean
   className?: string
-  onDragStart: (list: List) => void
-  onDragEnd: (list: List) => void
+  onDragStart: (e: any, list: List) => void
+  onDragEnd: (e: any, list: List) => void
   onDragOver: (e: any, list: List) => void
-  onDragLeave: (list: List) => void
+  onDragLeave: (e: any, list: List) => void
   onDrop: (e: any, list: List) => void
 }
 
@@ -85,11 +85,12 @@ const ListCard = ({
       className={`gap-0! py-5! overflow-y-auto list-card h-min relative list-card ${className} ${
         list.dragged ? 'opacity-50' : ''
       }`}
-      onDragStart={() => onDragStart(list)}
-      onDragEnd={() => onDragEnd(list)}
+      onDragStart={(e) => onDragStart(e, list)}
+      onDragEnd={(e) => onDragEnd(e, list)}
       onDragOver={(e) => onDragOver(e, list)}
-      onDragLeave={() => onDragLeave(list)}
+      onDragLeave={(e) => onDragLeave(e, list)}
       onDrop={(e) => onDrop(e, list)}
+      data-draggable-type="list"
     >
       <div className="span absolute w-10 h-1 bg-gray-500 rounded cursor-pointer top-1 self-center list-card-drag hidden" />
       <CardHeader
