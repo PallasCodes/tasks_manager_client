@@ -2,9 +2,8 @@ import { useEffect } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { toast } from 'sonner'
 
-import { api } from '.'
 import type { CreateTask, Task, UpdateTask } from '@/types/task.interface'
-import type { List } from '@/types/list.interface'
+import { api } from '.'
 
 const MODULE_PREFIX = '/tasks'
 

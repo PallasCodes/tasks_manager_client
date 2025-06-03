@@ -171,6 +171,7 @@ const ListCard = ({
               task={task}
               deleteTask={handleDeleteTask}
               isLoading={deleteTaskIsLoading || addTaskIsLoading}
+              list={list}
             />
           ))}
         <Accordion collapsible type="single">
@@ -187,6 +188,7 @@ const ListCard = ({
                     task={task}
                     deleteTask={handleDeleteTask}
                     isLoading={deleteTaskIsLoading || addTaskIsLoading}
+                    list={list}
                   />
                 </AccordionContent>
               ))}

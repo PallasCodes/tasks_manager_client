@@ -26,4 +26,5 @@ export interface UpdateTask {
   description?: string
   estimatedTime?: number
   order?: number
+  listId?: string
 }

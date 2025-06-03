@@ -8,14 +8,16 @@ import { Input } from './ui/input'
 import { useTranslation } from 'react-i18next'
 import { dateToLocale } from '@/utils/formatters.util'
 import { useTasks } from '@/context/TasksContext'
+import type { List } from '@/types/list.interface'
 
 interface Props {
   task: Task
   deleteTask: (id: string) => void
   isLoading: boolean
+  list: List
 }
 
-const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
+const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
   const { t } = useTranslation()
 
   const { draggedTask, setDraggedTask, draggedOnTask, setDraggedOnTask } =
@@ -63,7 +65,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
 
   const onDragStart = (e: React.DragEvent, task: Task) => {
     e.stopPropagation()
-    setDraggedTask(task)
+    setDraggedTask({ ...task, listId: list.id })
   }
 
   const onDragEnd = (e: React.DragEvent, _: Task) => {
@@ -74,7 +76,7 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
   const onDragOver = (e: React.DragEvent, task: Task) => {
     e.stopPropagation()
     e.preventDefault()
-    setDraggedOnTask(task)
+    setDraggedOnTask({ ...task, listId: list.id })
   }
 
   const onDragLeave = (e: React.DragEvent, _: Task) => {
@@ -86,7 +88,11 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
     e.preventDefault()
     e.stopPropagation()
     try {
-      await updateTask({ id: draggedTask?.id as string, order: task.order })
+      if (list.id !== draggedTask?.listId) {
+        await updateTask({ id: draggedTask?.id as string, listId: list.id })
+      } else {
+        await updateTask({ id: draggedTask?.id as string, order: task.order })
+      }
     } catch (error) {
     } finally {
       setDraggedTask(undefined)

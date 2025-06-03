@@ -7,18 +7,24 @@ interface TasksContextType {
   lists: List[]
   setLists: (data: React.SetStateAction<List[]>) => void
   toggleList: (listId: string) => void
-  draggedTask: Task | undefined
-  setDraggedTask: (data: React.SetStateAction<Task | undefined>) => void
+  draggedTask: (Task & { listId: string }) | undefined
+  setDraggedTask: (
+    data: React.SetStateAction<(Task & { listId: string }) | undefined>
+  ) => void
   draggedOnTask: Task | undefined
-  setDraggedOnTask: (data: React.SetStateAction<Task | undefined>) => void
+  setDraggedOnTask: (
+    data: React.SetStateAction<(Task & { listId: string }) | undefined>
+  ) => void
 }
 
 const TasksContext = createContext<TasksContextType | undefined>(undefined)
 
 export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   const [lists, setLists] = useState<List[]>([])
-  const [draggedTask, setDraggedTask] = useState<Task>()
-  const [draggedOnTask, setDraggedOnTask] = useState<Task>()
+  const [draggedTask, setDraggedTask] = useState<Task & { listId: string }>()
+  const [draggedOnTask, setDraggedOnTask] = useState<
+    Task & { listId: string }
+  >()
 
   const toggleList = (listId: string) => {
     setLists((prevLists) =>
