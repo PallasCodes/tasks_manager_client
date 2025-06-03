@@ -66,24 +66,32 @@ const TaskItem = ({ task, deleteTask, isLoading }: Props) => {
     setDraggedTask(task)
   }
 
-  const onDragEnd = (e: React.DragEvent, task: Task) => {
+  const onDragEnd = (e: React.DragEvent, _: Task) => {
     e.stopPropagation()
     setDraggedTask(undefined)
   }
 
   const onDragOver = (e: React.DragEvent, task: Task) => {
     e.stopPropagation()
+    e.preventDefault()
     setDraggedOnTask(task)
   }
 
-  const onDragLeave = (e: React.DragEvent, task: Task) => {
+  const onDragLeave = (e: React.DragEvent, _: Task) => {
     e.stopPropagation()
     setDraggedOnTask(undefined)
   }
 
-  const onDrop = (e: React.DragEvent, task: Task) => {
+  const onDrop = async (e: React.DragEvent, task: Task) => {
+    e.preventDefault()
     e.stopPropagation()
-    console.log({ task })
+    try {
+      await updateTask({ id: draggedTask?.id as string, order: task.order })
+    } catch (error) {
+    } finally {
+      setDraggedTask(undefined)
+      setDraggedOnTask(undefined)
+    }
   }
 
   return (

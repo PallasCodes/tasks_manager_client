@@ -129,19 +129,8 @@ export const useUpdateTask = () => {
     reset
   } = useMutation({
     mutationFn: updateTaskRequest,
-    onSuccess: (updatedTask) => {
-      queryClient.setQueryData<List[] | undefined>(
-        ['fetchLists'],
-        (oldData) => {
-          if (!oldData) return oldData
-          return oldData.map((list) => ({
-            ...list,
-            tasks: list.tasks.map((task) =>
-              task.id === updatedTask.id ? updatedTask : task
-            )
-          }))
-        }
-      )
+    onSuccess: () => {
+      queryClient.invalidateQueries(['fetchLists'])
     }
   })
 

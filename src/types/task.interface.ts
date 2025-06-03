@@ -7,7 +7,7 @@ export interface Task extends BaseEntity {
   pinned: boolean
   description?: string
   estimatedTime?: number
-  dragged?: boolean
+  order: number
 }
 
 export interface CreateTask {
@@ -20,9 +20,10 @@ export interface CreateTask {
 
 export interface UpdateTask {
   id: string
-  title: string
+  title?: string
   done?: boolean
   pinned?: boolean
   description?: string
   estimatedTime?: number
+  order?: number
 }
