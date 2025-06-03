@@ -72,10 +72,11 @@ const ListCard = ({
 
   return (
     <Card
-      className={`gap-0! py-5! overflow-y-auto list-card h-min ${className} ${
+      className={`gap-0! py-5! overflow-y-auto list-card h-min relative list-card ${className} ${
         list.dragged ? 'opacity-50' : ''
       }`}
     >
+      <div className="span absolute w-10 h-1 bg-gray-500 rounded cursor-pointer top-1 self-center list-card-drag hidden" />
       <CardHeader className="px-0! top-0 sticky bg-white dark:bg-card">
         <CardTitle className="px-4 text-lg">{list.title}</CardTitle>
         {showSettings && (
