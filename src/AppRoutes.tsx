@@ -11,8 +11,10 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import PinnedTasksPage from './pages/PinnedTasksPage'
 import RegisterPage from './pages/RegisterPage'
+import RestorePasswordPage from './pages/RestorePasswordPage'
 import SettingsPage from './pages/SettingsPage'
 import type { User } from './types/user.interface'
+import RequestPasswordRestorePage from './pages/RequestPasswordRestorePage'
 
 const AppRoutes = () => {
   const location = useLocation()
@@ -57,6 +59,11 @@ const AppRoutes = () => {
         <Route element={<UnprotectedRoute />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/restore-password" element={<RestorePasswordPage />} />
+          <Route
+            path="/request-password-restore"
+            element={<RequestPasswordRestorePage />}
+          />
         </Route>
 
         <Route element={<ProtectedRoute />}>

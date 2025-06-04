@@ -85,3 +85,81 @@ export const useRegister = () => {
     isLoading
   }
 }
+
+export const useRequestPassRestore = () => {
+  const requestPassRestoreRequest = async (payload: {
+    newPassword: string
+    token: string
+  }): Promise<{
+    message: string
+  }> => {
+    try {
+      const response = await api.post(
+        `${MODULE_PREFIX}/request-password-restore`,
+        payload
+      )
+      return response.data
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || 'Could not send email')
+    }
+  }
+
+  const {
+    mutateAsync: requestPassRestore,
+    isLoading,
+    error,
+    reset
+  } = useMutation(requestPassRestoreRequest)
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.toString())
+      reset()
+    }
+  }, [error, reset])
+
+  return {
+    requestPassRestore,
+    isLoading
+  }
+}
+
+export const useRestorePassword = () => {
+  const requestRestorePassword = async (payload: {
+    newPassword: string
+    token: string
+  }): Promise<{
+    message: string
+  }> => {
+    try {
+      const response = await api.post(
+        `${MODULE_PREFIX}/restore-password`,
+        payload
+      )
+      return response.data
+    } catch (error: any) {
+      throw new Error(
+        error.response?.data?.message || 'Could not restore password'
+      )
+    }
+  }
+
+  const {
+    mutateAsync: restorePassword,
+    isLoading,
+    error,
+    reset
+  } = useMutation(requestRestorePassword)
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.toString())
+      reset()
+    }
+  }, [error, reset])
+
+  return {
+    restorePassword,
+    isLoading
+  }
+}

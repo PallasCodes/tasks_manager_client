@@ -37,6 +37,16 @@ const LoginPage = () => {
           {t('loginPage.registerBtn')}
         </Link>
       </div>
+
+      <div className="text-center mt-1 text-gray-800 dark:text-gray-300">
+        Don't remember your password?
+        <Link
+          to="/request-password-restore"
+          className="text-blue-700 dark:text-blue-400"
+        >
+          Restore password
+        </Link>
+      </div>
     </div>
   )
 }
