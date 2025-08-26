@@ -11,7 +11,6 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 
 const formSchema = z.object({
@@ -27,8 +26,6 @@ type Props = {
 }
 
 const RestorePasswordForm = ({ onSave, isLoading, token }: Props) => {
-  const { t } = useTranslation()
-
   const form = useForm<RestorePasswordData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
