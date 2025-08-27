@@ -1,5 +1,5 @@
 import { Circle, CircleCheck, Pen, Star, Trash } from 'lucide-react'
-import { useState, type FormEvent } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useUpdateTask } from '@/api/tasks.api'
@@ -7,9 +7,9 @@ import { useTasks } from '@/context/TasksContext'
 import type { List } from '@/types/list.interface'
 import type { Task } from '@/types/task.interface'
 import { dateToLocale } from '@/utils/formatters.util'
+import clsx from 'clsx'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-import clsx from 'clsx'
 
 interface Props {
   task: Task
@@ -27,6 +27,7 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
   const [editingEnabled, setEditingEnabled] = useState(false)
   const [newTitle, setNewTitle] = useState('')
   const [estimatedTime, setEstimatedTime] = useState<number | undefined>()
+  const updateFormRef = useRef<HTMLFormElement>(null)
 
   const { updateTask, isLoading: updateIsLoading } = useUpdateTask()
 
@@ -45,22 +46,28 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
     title,
     estimatedTime
   }: {
-    e?: FormEvent<HTMLFormElement>
+    e?: any
     done?: boolean
     pinned?: boolean
     title?: string
     estimatedTime?: number
   }) => {
-    try {
-      e?.preventDefault()
-      const payload = {
-        id: task.id,
-        title: title ?? task.title,
-        done: done ?? task.done,
-        pinned: pinned ?? task.pinned,
-        estimatedTime: estimatedTime ?? task.estimatedTime
-      }
+    e?.preventDefault()
 
+    const next = e?.relatedTarget as HTMLElement | null
+    const stillInside = updateFormRef.current?.contains(next) ?? false
+
+    if (stillInside) return
+
+    const payload = {
+      id: task.id,
+      title: title ?? task.title,
+      done: done ?? task.done,
+      pinned: pinned ?? task.pinned,
+      estimatedTime: estimatedTime ?? task.estimatedTime
+    }
+
+    try {
       await updateTask(payload)
     } catch (error) {
       console.error(error)
@@ -94,6 +101,7 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
   const onDrop = async (e: React.DragEvent, task: Task) => {
     e.preventDefault()
     e.stopPropagation()
+
     try {
       if (list.id !== draggedTask?.listId) {
         await updateTask({ id: draggedTask?.id as string, listId: list.id })
@@ -170,13 +178,17 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
             onSubmit={(e) =>
               handleUpdateTask({ e, ...task, title: newTitle, estimatedTime })
             }
-            className="p-0! m-0 flex items-center  grow"
+            onBlur={(e) =>
+              handleUpdateTask({ e, ...task, title: newTitle, estimatedTime })
+            }
+            className="p-0! m-0 flex items-center grow"
+            ref={updateFormRef}
           >
             <Input
               placeholder="Title"
               className="ghost-input m-0! p-0! grow "
               autoFocus
-              // onBlur={() => handleUpdateTask({ ...task, title: newTitle })}
+              // onBlur={(e) => handleUpdateTask({ ...task, title: newTitle })}
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
             />

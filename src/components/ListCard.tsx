@@ -1,5 +1,5 @@
 import { CheckLine, Circle, EllipsisVertical } from 'lucide-react'
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 
 import { useCreateTask, useDeleteTask } from '@/api/tasks.api'
 import {
@@ -52,12 +52,19 @@ const ListCard = ({
   const [showNewTaskInput, setShowNewTaskInput] = useState(false)
   const [newTask, setNewTask] = useState('')
   const [newTaskEstimatedTime, setNewTaskEstimatedTime] = useState(5)
+  const formRef = useRef<HTMLFormElement>(null)
 
   const { createTask, isLoading: addTaskIsLoading } = useCreateTask()
   const { deleteTask, isLoading: deleteTaskIsLoading } = useDeleteTask()
 
-  const handleAddTask = async (e?: FormEvent<HTMLFormElement>) => {
+  const handleAddTask = async (e?: any) => {
     e?.preventDefault()
+
+    const next = e?.relatedTarget as HTMLElement | null
+    const stillInside = formRef.current?.contains(next) ?? false
+
+    if (stillInside) return
+
     setShowNewTaskInput(false)
 
     const trimmedNewTask = newTask.trim()
@@ -154,9 +161,9 @@ const ListCard = ({
             </Button>
             <form
               onSubmit={(e) => handleAddTask(e)}
-              onBlur={() => handleAddTask()}
-              onBlurCapture={() => handleAddTask()}
+              onBlurCapture={handleAddTask}
               className="flex w-full"
+              ref={formRef}
             >
               <Input
                 placeholder="Title"
