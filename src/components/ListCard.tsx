@@ -75,6 +75,8 @@ const ListCard = ({
     }
   }
 
+  console.log(list)
+
   const handleDeleteTask = (id: string) => {
     try {
       deleteTask(id)
@@ -140,7 +142,7 @@ const ListCard = ({
           <div className="text-end text-sm dark:text-gray-300 pr-2 mt-1 font-medium absolute right-0">
             Total: &nbsp;
             {list.tasks.reduce(
-              (acc, current) => current.estimatedTime ?? 0 + acc,
+              (acc, current) => (current.estimatedTime ?? 0) + acc,
               0
             )}
             &nbsp;min
