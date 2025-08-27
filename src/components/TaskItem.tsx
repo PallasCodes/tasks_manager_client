@@ -1,14 +1,15 @@
-import { useState, type FormEvent } from 'react'
 import { Circle, CircleCheck, Pen, Star, Trash } from 'lucide-react'
+import { useState, type FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { useUpdateTask } from '@/api/tasks.api'
-import type { Task } from '@/types/task.interface'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
-import { useTranslation } from 'react-i18next'
-import { dateToLocale } from '@/utils/formatters.util'
 import { useTasks } from '@/context/TasksContext'
 import type { List } from '@/types/list.interface'
+import type { Task } from '@/types/task.interface'
+import { dateToLocale } from '@/utils/formatters.util'
+import { Button } from './ui/button'
+import { Input } from './ui/input'
+import clsx from 'clsx'
 
 interface Props {
   task: Task
@@ -102,7 +103,7 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
 
   return (
     <div
-      className={`w-full flex justify-between items-start gap-1.5 hover:bg-blue-50 transition-colors px-2 py-1 dark:hover:bg-gray-900 task-item 
+      className={`flex justify-between items-start gap-1.5 hover:bg-blue-50 transition-colors px-2 py-1 dark:hover:bg-gray-900 task-item 
         ${draggedTask?.id === task.id ? 'opacity-50' : ''} 
         ${draggedOnTask?.id === task.id ? 'border-b-2 border-b-blue-500' : ''}`}
       draggable="true"
@@ -126,13 +127,16 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
             {task.done ? <CircleCheck /> : <Circle />}
           </Button>
           <div
-            className="text-sm text-gray-600 dark:text-gray-400"
+            className="text-sm text-gray-600 dark:text-gray-400 flex "
             onDoubleClick={enableTaskEditing}
           >
             <div
-              className={`dark:text-gray-300 ${
-                task.done ? 'line-through' : ''
-              }`}
+              className={clsx(
+                'dark:text-gray-300 min-w-0 break-words max-w-[344px]',
+                {
+                  'line-through': task.done
+                }
+              )}
             >
               {task.title}
             </div>
@@ -150,17 +154,19 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
           </div>
         </div>
       )}
+
       {editingEnabled && (
-        <div className="w-full flex items-center px-2 py-1">
+        <div className="w-full flex items-center">
           <Button variant="ghost" className="rounded-full size-7">
             <Circle />
           </Button>
           <form
             onSubmit={(e) => handleUpdateTask({ e, ...task, title: newTitle })}
+            className="p-0! m-0 w-full"
           >
             <Input
               placeholder="Title"
-              className="border-none shadow-none outline-none focus:outline-none! focus:ring-0! focus:border-transparent! px-[6px]! w-full! bg-transparent!"
+              className="border-none shadow-none outline-none focus:outline-none! focus:ring-0! focus:border-transparent! w-full! max-w-full! min-w-full! bg-transparent! m-0! p-0!"
               autoFocus
               onBlur={() => handleUpdateTask({ ...task, title: newTitle })}
               value={newTitle}
@@ -170,7 +176,7 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
         </div>
       )}
 
-      {!task.done && (
+      {!task.done && !editingEnabled && (
         <div className="flex items-center">
           <div className="flex items-center">
             <Button

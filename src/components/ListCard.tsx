@@ -163,6 +163,7 @@ const ListCard = ({
         )}
       </CardHeader>
       <CardContent className="flex flex-col px-0!">
+        {/* Tasks */}
         {list.tasks
           ?.filter((task) => !task.done)
           .map((task) => (
@@ -174,6 +175,8 @@ const ListCard = ({
               list={list}
             />
           ))}
+
+        {/* Completed Tasks */}
         <Accordion collapsible type="single">
           <AccordionItem value="tasks-done">
             <AccordionTrigger className="px-4 dark:text-gray-300 text-gray-700">

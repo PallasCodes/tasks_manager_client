@@ -162,3 +162,7 @@
 .list-card:hover .list-card-drag {
   @apply block;
 }
+
+.debug {
+  @apply border-red-500 border-2;
+}
