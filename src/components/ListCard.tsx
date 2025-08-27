@@ -1,5 +1,5 @@
 import { CheckLine, Circle, EllipsisVertical } from 'lucide-react'
-import { useRef, useState, type FormEvent } from 'react'
+import { useRef, useState } from 'react'
 
 import { useCreateTask, useDeleteTask } from '@/api/tasks.api'
 import {
