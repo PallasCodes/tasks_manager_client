@@ -179,6 +179,7 @@ const ListCard = ({
                 onChange={(e) => setNewTaskEstimatedTime(+e.target.value)}
                 min={1}
               />
+              <button type="submit" hidden />
             </form>
           </div>
         )}

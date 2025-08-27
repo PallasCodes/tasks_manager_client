@@ -27,6 +27,7 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
   const [editingEnabled, setEditingEnabled] = useState(false)
   const [newTitle, setNewTitle] = useState('')
   const [estimatedTime, setEstimatedTime] = useState<number | undefined>()
+
   const updateFormRef = useRef<HTMLFormElement>(null)
 
   const { updateTask, isLoading: updateIsLoading } = useUpdateTask()
@@ -37,6 +38,14 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
     setEditingEnabled(true)
     setNewTitle(task.title)
     setEstimatedTime(task.estimatedTime)
+
+    Promise.resolve().then(() => {
+      if (field === 'estimatedTime') {
+        document.getElementById('estimatedTimeInput')?.focus()
+      } else {
+        document.getElementById('newTitleInput')?.focus()
+      }
+    })
   }
 
   const handleUpdateTask = async ({
@@ -187,10 +196,9 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
             <Input
               placeholder="Title"
               className="ghost-input m-0! p-0! grow "
-              autoFocus
-              // onBlur={(e) => handleUpdateTask({ ...task, title: newTitle })}
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
+              id="newTitleInput"
             />
             <Input
               className="ghost-input shrink grow-0 w-12! remove-input-arrows"
@@ -198,8 +206,9 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
               type="number"
               onChange={(e) => setEstimatedTime(+e.target.value)}
               min={1}
+              id="estimatedTimeInput"
             />
-            <button type="submit" hidden></button>
+            <button type="submit" hidden />
           </form>
         </div>
       )}
