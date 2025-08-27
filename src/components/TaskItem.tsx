@@ -26,25 +26,30 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
 
   const [editingEnabled, setEditingEnabled] = useState(false)
   const [newTitle, setNewTitle] = useState('')
+  const [estimatedTime, setEstimatedTime] = useState<number | undefined>()
 
   const { updateTask, isLoading: updateIsLoading } = useUpdateTask()
 
-  const enableTaskEditing = () => {
+  const enableTaskEditing = (field: 'estimatedTime' | 'title') => {
     if (task.done) return
+
     setEditingEnabled(true)
     setNewTitle(task.title)
+    setEstimatedTime(task.estimatedTime)
   }
 
   const handleUpdateTask = async ({
     e,
     done,
     pinned,
-    title
+    title,
+    estimatedTime
   }: {
     e?: FormEvent<HTMLFormElement>
     done?: boolean
     pinned?: boolean
     title?: string
+    estimatedTime?: number
   }) => {
     try {
       e?.preventDefault()
@@ -52,7 +57,8 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
         id: task.id,
         title: title ?? task.title,
         done: done ?? task.done,
-        pinned: pinned ?? task.pinned
+        pinned: pinned ?? task.pinned,
+        estimatedTime: estimatedTime ?? task.estimatedTime
       }
 
       await updateTask(payload)
@@ -128,7 +134,7 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
           </Button>
           <div
             className="text-sm text-gray-600 dark:text-gray-400 flex "
-            onDoubleClick={enableTaskEditing}
+            onDoubleClick={() => enableTaskEditing('title')}
           >
             <div
               className={clsx(
@@ -156,22 +162,32 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
       )}
 
       {editingEnabled && (
-        <div className="w-full flex items-center">
+        <div className=" grow flex items-center">
           <Button variant="ghost" className="rounded-full size-7">
             <Circle />
           </Button>
           <form
-            onSubmit={(e) => handleUpdateTask({ e, ...task, title: newTitle })}
-            className="p-0! m-0 w-full"
+            onSubmit={(e) =>
+              handleUpdateTask({ e, ...task, title: newTitle, estimatedTime })
+            }
+            className="p-0! m-0 flex items-center  grow"
           >
             <Input
               placeholder="Title"
-              className="border-none shadow-none outline-none focus:outline-none! focus:ring-0! focus:border-transparent! w-full! max-w-full! min-w-full! bg-transparent! m-0! p-0!"
+              className="ghost-input m-0! p-0! grow "
               autoFocus
-              onBlur={() => handleUpdateTask({ ...task, title: newTitle })}
+              // onBlur={() => handleUpdateTask({ ...task, title: newTitle })}
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
             />
+            <Input
+              className="ghost-input shrink grow-0 w-12! remove-input-arrows"
+              value={estimatedTime}
+              type="number"
+              onChange={(e) => setEstimatedTime(+e.target.value)}
+              min={1}
+            />
+            <button type="submit" hidden></button>
           </form>
         </div>
       )}
@@ -190,7 +206,7 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
             <Button
               variant="ghost"
               className="size-7 transition-colors text-transparent dark:text-transparent task-action hover:text-green-500!"
-              onClick={enableTaskEditing}
+              onClick={() => enableTaskEditing('title')}
               disabled={isLoading || updateIsLoading}
             >
               <Pen className="size-4" />
@@ -211,7 +227,10 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
               />
             </Button>
           </div>
-          <div className="w-10 text-sm text-end dark:text-gray-300 pr-2 font-medium">
+          <div
+            className="w-10 text-sm text-end dark:text-gray-300 pr-2 font-medium grow-0 shrink"
+            onDoubleClick={() => enableTaskEditing('estimatedTime')}
+          >
             {task.estimatedTime}
           </div>
         </div>

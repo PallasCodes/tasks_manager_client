@@ -75,8 +75,6 @@ const ListCard = ({
     }
   }
 
-  console.log(list)
-
   const handleDeleteTask = (id: string) => {
     try {
       deleteTask(id)
@@ -156,7 +154,7 @@ const ListCard = ({
             </Button>
             <form
               onSubmit={(e) => handleAddTask(e)}
-              // onBlur={() => handleAddTask()}
+              onBlur={() => handleAddTask()}
               onBlurCapture={() => handleAddTask()}
               className="flex w-full"
             >
