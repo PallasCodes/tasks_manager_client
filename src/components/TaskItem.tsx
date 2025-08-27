@@ -211,7 +211,7 @@ const TaskItem = ({ task, deleteTask, isLoading, list }: Props) => {
               />
             </Button>
           </div>
-          <div className="w-10 text-sm text-end dark:text-gray-300">
+          <div className="w-10 text-sm text-end dark:text-gray-300 pr-2 font-medium">
             {task.estimatedTime}
           </div>
         </div>

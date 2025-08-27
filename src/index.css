@@ -166,3 +166,13 @@
 .debug {
   @apply border-red-500 border-2;
 }
+
+.remove-input-arrows {
+  @apply [&::-webkit-inner-spin-button]:appearance-none 
+         [&::-webkit-outer-spin-button]:appearance-none 
+         [-moz-appearance:_textfield];
+}
+
+.ghost-input {
+  @apply border-none shadow-none outline-none focus:outline-none! focus:ring-0! focus:border-transparent! px-[6px]! bg-transparent!;
+}

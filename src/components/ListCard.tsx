@@ -51,6 +51,8 @@ const ListCard = ({
 
   const [showNewTaskInput, setShowNewTaskInput] = useState(false)
   const [newTask, setNewTask] = useState('')
+  const [newTaskEstimatedTime, setNewTaskEstimatedTime] = useState(5)
+
   const { createTask, isLoading: addTaskIsLoading } = useCreateTask()
   const { deleteTask, isLoading: deleteTaskIsLoading } = useDeleteTask()
 
@@ -64,7 +66,8 @@ const ListCard = ({
     try {
       await createTask({
         listId: list.id,
-        title: trimmedNewTask
+        title: trimmedNewTask,
+        estimatedTime: newTaskEstimatedTime
       })
       setNewTask('')
     } catch (error) {
@@ -149,14 +152,25 @@ const ListCard = ({
             <Button variant="ghost" className="rounded-full size-7">
               <Circle />
             </Button>
-            <form onSubmit={(e) => handleAddTask(e)}>
+            <form
+              onSubmit={(e) => handleAddTask(e)}
+              // onBlur={() => handleAddTask()}
+              onBlurCapture={() => handleAddTask()}
+              className="flex w-full"
+            >
               <Input
                 placeholder="Title"
-                className="border-none shadow-none outline-none focus:outline-none! focus:ring-0! focus:border-transparent! px-[6px]! w-full! bg-transparent!"
+                className="ghost-input grow"
                 autoFocus
-                onBlur={() => handleAddTask()}
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
+              />
+              <Input
+                className="ghost-input shrink grow-0 w-12! remove-input-arrows"
+                value={newTaskEstimatedTime}
+                type="number"
+                onChange={(e) => setNewTaskEstimatedTime(+e.target.value)}
+                min={1}
               />
             </form>
           </div>
